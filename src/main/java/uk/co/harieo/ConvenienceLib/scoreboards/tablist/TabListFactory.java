@@ -1,5 +1,7 @@
 package uk.co.harieo.ConvenienceLib.scoreboards.tablist;
 
+import org.bukkit.entity.Player;
+
 import uk.co.harieo.ConvenienceLib.scoreboards.GameBoard;
 import uk.co.harieo.ConvenienceLib.scoreboards.GameBoardImpl;
 import uk.co.harieo.ConvenienceLib.scoreboards.tablist.modules.TabListProcessor;
@@ -82,6 +84,17 @@ public class TabListFactory {
 			}
 
 			teamHandler.injectOnlinePlayers();
+		}
+	}
+
+	/**
+	 * Safely calls {@link TeamHandler#injectPlayer(Player)} on the attached handler
+	 *
+	 * @param player to be injected
+	 */
+	public void injectPlayer(Player player) {
+		if (isActivated()) {
+			teamHandler.injectPlayer(player);
 		}
 	}
 
