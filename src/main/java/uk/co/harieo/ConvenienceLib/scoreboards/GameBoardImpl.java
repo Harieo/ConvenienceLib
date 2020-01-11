@@ -154,6 +154,20 @@ public class GameBoardImpl {
 	}
 
 	/**
+	 * @return the {@link GameBoard} which is handling this implementation
+	 */
+	public GameBoard getGameBoard() {
+		return gameBoard;
+	}
+
+	/**
+	 * @return the Player which this implementation is meant to render for
+	 */
+	public Player getPlayer() {
+		return player;
+	}
+
+	/**
 	 * @return a live list of all instances of {@link GameBoardImpl} which are currently running
 	 */
 	public static List<GameBoardImpl> getActiveImplementations() {

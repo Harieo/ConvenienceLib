@@ -17,12 +17,6 @@ public abstract class TabListProcessor {
 
 	private Map<String, Affix> affixes;
 
-	public TabListProcessor() {
-		List<Affix> initialAffixes = getInitialAffixes();
-		validateAffixList(initialAffixes); // Make sure the content is valid
-		affixes = mapByUniqueId(initialAffixes);
-	}
-
 	// Abstract Methods //
 
 	/**
@@ -44,9 +38,16 @@ public abstract class TabListProcessor {
 	// Methods Available on Post-Instantiation //
 
 	/**
+	 * This method will take from {@link #getInitialAffixes()} on first call
+	 *
 	 * @return a map of unique ids and their affixes which represent a validated list of prefixes which can be used
 	 */
 	public Map<String, Affix> getAffixes() {
+		if (affixes == null) { // Do this here as thread issues occur if done on instantiation (super doesn't work)
+			List<Affix> initialAffixes = getInitialAffixes();
+			validateAffixList(initialAffixes); // Make sure the content is valid
+			affixes = mapByUniqueId(initialAffixes);
+		}
 		return affixes;
 	}
 

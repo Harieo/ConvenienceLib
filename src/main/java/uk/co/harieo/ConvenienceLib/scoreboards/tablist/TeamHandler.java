@@ -109,12 +109,13 @@ public class TeamHandler {
 	public void injectPlayer(Player player) {
 		Optional<Affix> optionalAffix = this.processor.getAffixForPlayer(player);
 		for (GameBoardImpl impl : teams.rowKeySet()) {
-			if (optionalAffix.isPresent()) { // If this is not present, assume the player shouldn't be handled in this case
+			if (optionalAffix
+					.isPresent()) { // If this is not present, assume the player shouldn't be handled in this case
 				Affix affix = optionalAffix.get();
 				if (teams.contains(impl, affix)) { // If the row hasn't been cleared (e.g is still active)
 					Team team = teams.get(impl, affix);
-					if (!team.getPlayers().contains(player)) { // If the player isn't already added
-						team.addPlayer(player);
+					if (!team.getEntries().contains(player.getName())) { // If the player isn't already added
+						team.addEntry(player.getName());
 					}
 				}
 			}

@@ -105,7 +105,7 @@ public class GameBoard {
 	 * This class will provide a consumer to the {@link GameBoardImpl#consumeBeforeRender(Consumer)} method every time a
 	 * new implementation is created.
 	 *
-	 * This is <b>not</b> a consumer which will happen before {@link #render(JavaPlugin, Player, int)} is called as you
+	 * This is <b>not</b> a consumer which will happen before {@link #render(JavaPlugin, Player, int)} is called, as you
 	 * can easily implement this yourself (the method is not automatic).
 	 *
 	 * @param scoreboardConsumer to be provided

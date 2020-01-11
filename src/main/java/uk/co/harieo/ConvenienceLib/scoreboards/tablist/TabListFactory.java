@@ -88,6 +88,19 @@ public class TabListFactory {
 	}
 
 	/**
+	 * Deletes all values from all implementations then re-adds them via {@link #updateAll()}
+	 */
+	public void reload() {
+		if (isActivated()) {
+			for (GameBoardImpl impl : gameBoard.getImplementations().values()) {
+				teamHandler.removeImpl(impl); // Clears all values
+			}
+
+			updateAll(); // Reloads the values
+		}
+	}
+
+	/**
 	 * Safely calls {@link TeamHandler#injectPlayer(Player)} on the attached handler
 	 *
 	 * @param player to be injected
@@ -95,6 +108,15 @@ public class TabListFactory {
 	public void injectPlayer(Player player) {
 		if (isActivated()) {
 			teamHandler.injectPlayer(player);
+		}
+	}
+
+	/**
+	 * Safely calls {@link TeamHandler#injectOnlinePlayers()}
+	 */
+	public void injectAllPlayers() {
+		if (isActivated()) {
+			teamHandler.injectOnlinePlayers();
 		}
 	}
 
