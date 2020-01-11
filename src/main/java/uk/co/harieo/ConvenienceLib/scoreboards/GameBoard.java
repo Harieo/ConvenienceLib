@@ -11,6 +11,8 @@ import java.util.*;
 import java.util.function.Consumer;
 import uk.co.harieo.ConvenienceLib.scoreboards.elements.ConstantElement;
 import uk.co.harieo.ConvenienceLib.scoreboards.elements.RenderableElement;
+import uk.co.harieo.ConvenienceLib.scoreboards.tablist.TabListFactory;
+import uk.co.harieo.ConvenienceLib.scoreboards.tablist.modules.TabListProcessor;
 
 /**
  * This is the primary interface for the Scoreboard API which handles the creation and implementation of {@link
@@ -28,6 +30,7 @@ public class GameBoard {
 	private Map<UUID, GameBoardImpl> impls = new HashMap<>();
 	private Map<Integer, RenderableElement> elements = new HashMap<>();
 	private Consumer<Scoreboard> beforeRender;
+	private TabListFactory tabListFactory = new TabListFactory(this);
 
 	public GameBoard(String displayName, DisplaySlot displaySlot) {
 		this.displayName = displayName;
@@ -89,8 +92,18 @@ public class GameBoard {
 	}
 
 	/**
-	 * This class will provide a consumer to the {@link GameBoardImpl#consumeBeforeRender(Consumer)} method every time
-	 * a new implementation is created.
+	 * Note: Use of this factory is optional and it will only be activated if you call {@link
+	 * TabListFactory#injectProcessor(TabListProcessor)} on it.
+	 *
+	 * @return the instantiated instance of {@link TabListFactory} for this scoreboard
+	 */
+	public TabListFactory getTabListFactory() {
+		return tabListFactory;
+	}
+
+	/**
+	 * This class will provide a consumer to the {@link GameBoardImpl#consumeBeforeRender(Consumer)} method every time a
+	 * new implementation is created.
 	 *
 	 * This is <b>not</b> a consumer which will happen before {@link #render(JavaPlugin, Player, int)} is called as you
 	 * can easily implement this yourself (the method is not automatic).
@@ -109,16 +122,28 @@ public class GameBoard {
 	 * @param time in ticks for every update of the scoreboard
 	 */
 	public void render(JavaPlugin plugin, Player player, int time) {
-		GameBoardImpl impl = new GameBoardImpl(plugin, player, elements, displayName, slot, time);
+		GameBoardImpl impl = new GameBoardImpl(this, plugin, player, elements, displayName, slot, time);
 		if (beforeRender != null) { // Provides the Consumer before it will actually be needed
 			impl.consumeBeforeRender(beforeRender);
 		}
 		impls.put(player.getUniqueId(), impl);
 		impl.start();
+
+		if (getTabListFactory().isActivated()) {
+			getTabListFactory().handleNewImpl(impl);
+		}
+	}
+
+	void invalidateImplementation(UUID uuid, GameBoardImpl impl) {
+		if (getTabListFactory().isActivated()) {
+			getTabListFactory().handleDeleteImpl(impl);
+		}
+		impls.remove(uuid);
 	}
 
 	/**
-	 * Stops updating the Scoreboard for the stated Player. Note: This does not reset their scoreboard.
+	 * Stops updating the Scoreboard for the stated Player and removes it from the cache. Note: This does not reset
+	 * their scoreboard.
 	 *
 	 * @param player to cancel for
 	 */
@@ -126,6 +151,13 @@ public class GameBoard {
 		if (impls.containsKey(player.getUniqueId())) {
 			impls.get(player.getUniqueId()).stop();
 		}
+	}
+
+	/**
+	 * @return a list of all active implementations
+	 */
+	public Map<UUID, GameBoardImpl> getImplementations() {
+		return impls;
 	}
 
 }
