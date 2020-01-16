@@ -3,7 +3,9 @@ package uk.co.harieo.ConvenienceLib.menus;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 
+import java.util.List;
 import java.util.function.Consumer;
 
 /**
@@ -53,6 +55,35 @@ public class MenuItem {
 	 */
 	public MenuItem(ItemStack item) {
 		this.item = item;
+	}
+
+	/**
+	 * Sets the item name
+	 *
+	 * @param name to set
+	 */
+	public void setName(String name) {
+		metaUpdate(meta -> meta.setDisplayName(name));
+	}
+
+	/**
+	 * Sets the lore
+	 *
+	 * @param lore to set
+	 */
+	public void setLore(List<String> lore) {
+		metaUpdate(meta -> meta.setLore(lore));
+	}
+
+	/**
+	 * Updates and sets the Item Meta for the item
+	 *
+	 * @param toEdit edits to the meta before re-set
+	 */
+	private void metaUpdate(Consumer<ItemMeta> toEdit) {
+		ItemMeta meta = item.getItemMeta();
+		toEdit.accept(meta);
+		item.setItemMeta(meta);
 	}
 
 	/**

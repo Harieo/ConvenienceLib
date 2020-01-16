@@ -29,7 +29,8 @@ public class MenuInteractionListener implements Listener {
 		Player player = (Player) event.getWhoClicked();
 		Inventory inventory = event.getClickedInventory();
 		if (inventory != null && inventory.getName().equals(factory.getInventoryName())) {
-			MenuItem item = factory.getItem(event.getSlot());
+			event.setCancelled(true);
+			MenuItem item = factory.getItem(player, event.getSlot());
 			if (item != null) {
 				item.onClick(player);
 			}

@@ -26,14 +26,14 @@ public class MenuImpl {
 		this.factory = factory;
 		this.player = player;
 		this.inventory = Bukkit.createInventory(null, factory.getSlotSize(), factory.getInventoryName());
-		populateInventory();
+		updateAll();
 	}
 
 	/**
-	 * Adds all the items from {@link MenuFactory#getItems()} into the inventory
+	 * Adds all the items from {@link MenuFactory#getItems(Player)} into the inventory
 	 */
-	public void populateInventory() {
-		factory.getItems().forEach((slot, menuItem) -> inventory.setItem(slot, menuItem.getItem()));
+	public void updateAll() {
+		factory.getItems(player).forEach((slot, menuItem) -> inventory.setItem(slot, menuItem.getItem()));
 	}
 
 	/**
@@ -42,7 +42,7 @@ public class MenuImpl {
 	 * @param slot to be updated
 	 */
 	public void updateSlot(int slot) {
-		inventory.setItem(slot, factory.getItem(slot).getItem());
+		inventory.setItem(slot, factory.getItem(player, slot).getItem());
 	}
 
 	/**
@@ -57,6 +57,15 @@ public class MenuImpl {
 	 */
 	public Inventory getInventory() {
 		return inventory;
+	}
+
+	/**
+	 * Sets the player in-case the information is wrong
+	 *
+	 * @param player to set
+	 */
+	void setPlayer(Player player) {
+		this.player = player;
 	}
 
 }
