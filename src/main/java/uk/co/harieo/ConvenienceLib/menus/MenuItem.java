@@ -62,8 +62,9 @@ public class MenuItem {
 	 *
 	 * @param name to set
 	 */
-	public void setName(String name) {
+	public MenuItem setName(String name) {
 		metaUpdate(meta -> meta.setDisplayName(name));
+		return this;
 	}
 
 	/**
@@ -71,8 +72,9 @@ public class MenuItem {
 	 *
 	 * @param lore to set
 	 */
-	public void setLore(List<String> lore) {
+	public MenuItem setLore(List<String> lore) {
 		metaUpdate(meta -> meta.setLore(lore));
+		return this;
 	}
 
 	/**
@@ -91,8 +93,9 @@ public class MenuItem {
 	 *
 	 * @param onClick for when the item is clicked
 	 */
-	public void setOnClick(Consumer<Player> onClick) {
+	public MenuItem setOnClick(Consumer<Player> onClick) {
 		this.onClick = onClick;
+		return this;
 	}
 
 	/**
