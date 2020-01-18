@@ -46,6 +46,13 @@ public class MenuImpl {
 	}
 
 	/**
+	 * Clears the inventory
+	 */
+	public void clear() {
+		inventory.clear();
+	}
+
+	/**
 	 * Displays the current {@link Inventory} to the Player
 	 */
 	public void showInventory() {

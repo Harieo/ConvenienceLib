@@ -98,6 +98,9 @@ public abstract class MenuFactory {
 	 */
 	public void clearItems(Player player) {
 		items.row(player.getUniqueId()).clear();
+		if (implementations.containsKey(player.getUniqueId())) {
+			implementations.get(player.getUniqueId()).clear();
+		}
 	}
 
 	/**
