@@ -68,6 +68,13 @@ public class MenuItem {
 	}
 
 	/**
+	 * @return the name of this item
+	 */
+	public String getName() {
+		return item.getItemMeta().getDisplayName();
+	}
+
+	/**
 	 * Sets the lore
 	 *
 	 * @param lore to set
@@ -75,6 +82,13 @@ public class MenuItem {
 	public MenuItem setLore(List<String> lore) {
 		metaUpdate(meta -> meta.setLore(lore));
 		return this;
+	}
+
+	/**
+	 * @return the lore of this item
+	 */
+	public List<String> getLore() {
+		return item.getItemMeta().getLore();
 	}
 
 	/**

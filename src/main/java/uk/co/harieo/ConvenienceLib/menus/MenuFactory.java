@@ -107,18 +107,29 @@ public abstract class MenuFactory {
 	 * A method called before a player-specific implementation is made to set all the necessary GUI items
 	 *
 	 * @param player to set the items for
+	 * @param page the page should this factory be using pages (can be ignored)
 	 */
-	public abstract void setPlayerItems(Player player);
+	public abstract void setPlayerItems(Player player, int page);
+
+	/**
+	 * Overloads {@link #setPlayerItems(Player, int)} with page as 1
+	 *
+	 * @param player to set the items for
+	 */
+	public void setPlayerItems(Player player) {
+		setPlayerItems(player, 1);
+	}
 
 	/**
 	 * Retrieves the already created instance of {@link MenuImpl} or creates a new one for the specified player
 	 *
 	 * @param player to get the menu implementation for
+	 * @param page the page the player is on
 	 * @return the menu implementation, either new or cached
 	 */
-	public MenuImpl getOrCreateMenu(Player player) {
+	public MenuImpl getOrCreateMenu(Player player, int page) {
 		MenuImpl impl;
-		setPlayerItems(player);
+		setPlayerItems(player, page);
 		if (implementations.containsKey(player.getUniqueId())) {
 			impl = implementations.get(player.getUniqueId());
 			impl.updateAll(); // Refresh in-case things changed since last access
@@ -128,6 +139,16 @@ public abstract class MenuFactory {
 			implementations.put(player.getUniqueId(), impl);
 		}
 		return impl;
+	}
+
+	/**
+	 * Overloads {@link #getOrCreateMenu(Player, int)} with page as 1
+	 *
+	 * @param player to create the menu for
+	 * @return the implementation at default page 1
+	 */
+	public MenuImpl getOrCreateMenu(Player player) {
+		return getOrCreateMenu(player, 1);
 	}
 
 	/**
