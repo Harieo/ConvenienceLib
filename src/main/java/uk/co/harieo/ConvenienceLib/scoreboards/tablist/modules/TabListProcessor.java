@@ -2,10 +2,7 @@ package uk.co.harieo.ConvenienceLib.scoreboards.tablist.modules;
 
 import org.bukkit.entity.Player;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import uk.co.harieo.ConvenienceLib.exceptions.InvalidAffixException;
 
 /**
@@ -44,8 +41,7 @@ public abstract class TabListProcessor {
 	 */
 	public Map<String, Affix> getAffixes() {
 		if (affixes == null) { // Do this here as thread issues occur if done on instantiation (super doesn't work)
-			List<Affix> initialAffixes = getInitialAffixes();
-			validateAffixList(initialAffixes); // Make sure the content is valid
+			List<Affix> initialAffixes = validateAffixList(getInitialAffixes()); // Make sure the content is valid
 			affixes = mapByUniqueId(initialAffixes);
 		}
 		return affixes;
@@ -74,26 +70,32 @@ public abstract class TabListProcessor {
 	 *
 	 * @param affixes to be validated
 	 */
-	private static void validateAffixList(List<Affix> affixes) {
+	private static List<Affix> validateAffixList(List<Affix> affixes) {
+		List<Affix> validatedList = new ArrayList<>(affixes);
 		for (Affix affix : affixes) {
+			boolean remove = false;
 			if (affix.hasPrefix()) {
 				if (affix.getPrefix().length() > 16) {
-					throw new InvalidAffixException(affix, "More than 16 characters in a prefix");
+					remove = true;
 				}
 			}
 
 			if (affix.hasSuffix()) {
 				if (affix.getSuffix().length() > 16) {
-					throw new InvalidAffixException(affix, "More than 16 characters in a suffix");
+					remove = true;
 				}
 			}
 
-			if (affix.getUniqueId() == null) {
-				throw new NullPointerException("An affix unique id was null!");
-			} else if (affix.getUniqueId().isEmpty()) {
-				throw new InvalidAffixException(affix, "A unique id had no usable content");
+			if (affix.getUniqueId() == null || affix.getUniqueId().isEmpty()) {
+				remove = true;
+			}
+
+			if (remove) {
+				validatedList.remove(affix);
 			}
 		}
+
+		return validatedList;
 	}
 
 }
