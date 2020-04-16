@@ -173,4 +173,16 @@ public abstract class MenuFactory {
 		Bukkit.getPluginManager().registerEvents(interactionListener, plugin);
 	}
 
+	void cleanup(Player player) {
+
+		// remove items for the player
+		Map<Integer, MenuItem> itemsForPlayer = items.row(player.getUniqueId());
+		for (Integer i : itemsForPlayer.keySet()) {
+			items.remove(player.getUniqueId(), i);
+		}
+
+		// delete MenuImpl instance
+		implementations.remove(player.getUniqueId());
+
+	}
 }
