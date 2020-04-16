@@ -12,14 +12,14 @@ public abstract class BorderedMenuFactory extends MenuFactory {
 
 	private MenuItem border;
 
-	public BorderedMenuFactory(MaterialData border, String inventoryName, int rows) {
+	public BorderedMenuFactory(MaterialData data, String inventoryName, int rows) {
 		super(inventoryName, rows);
 
-		this.border = new MenuItem(border.getItemType(), 1, border.getData());
+		this.border = new MenuItem(data.getItemType(), 1, data.getData());
 	}
 
 	public BorderedMenuFactory(String inventoryName, int rows) {
-		this(new Dye(Material.STAINED_GLASS_PANE, DyeColor.BLACK.getWoolData()), inventoryName, rows);
+		this(new MaterialData(Material.STAINED_GLASS_PANE, DyeColor.BLACK.getWoolData()), inventoryName, rows);
 	}
 
 	@Override

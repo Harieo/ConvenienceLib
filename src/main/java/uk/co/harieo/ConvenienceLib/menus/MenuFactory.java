@@ -200,7 +200,7 @@ public abstract class MenuFactory {
 		// remove items for the player
 		Map<Integer, MenuItem> itemsForPlayer = items.row(player.getUniqueId());
 		if (itemsForPlayer != null) {
-			for (Integer i : itemsForPlayer.keySet()) {
+			for (Integer i : new ArrayList<>(itemsForPlayer.keySet())) {
 				items.remove(player.getUniqueId(), i);
 			}
 		}
