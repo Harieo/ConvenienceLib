@@ -13,7 +13,7 @@ import java.util.*;
  * purposes of handling interaction which is totally controlled by the system. This means that unless the system allows
  * it, a player can't edit this menu.
  *
- * All items in this factory are player-specific and should be set via {@link #setPlayerItems(Player)} in extensions
+ * All items in this factory are player-specific and should be set via {@link #setPlayerItems(Player, int)} in extensions
  * of this class.
  *
  * @author Harieo
@@ -132,15 +132,6 @@ public abstract class MenuFactory {
 	 * @param page the page should this factory be using pages (can be ignored)
 	 */
 	public abstract void setPlayerItems(Player player, int page);
-
-	/**
-	 * Overloads {@link #setPlayerItems(Player, int)} with page as 1
-	 *
-	 * @param player to set the items for
-	 */
-	public void setPlayerItems(Player player) {
-		setPlayerItems(player, 1);
-	}
 
 	/**
 	 * Retrieves the already created instance of {@link MenuImpl} or creates a new one for the specified player
