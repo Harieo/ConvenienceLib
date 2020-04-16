@@ -199,12 +199,13 @@ public abstract class MenuFactory {
 
 		// remove items for the player
 		Map<Integer, MenuItem> itemsForPlayer = items.row(player.getUniqueId());
-		for (Integer i : itemsForPlayer.keySet()) {
-			items.remove(player.getUniqueId(), i);
+		if (itemsForPlayer != null) {
+			for (Integer i : itemsForPlayer.keySet()) {
+				items.remove(player.getUniqueId(), i);
+			}
 		}
 
 		// delete MenuImpl instance
 		implementations.remove(player.getUniqueId());
-
 	}
 }
