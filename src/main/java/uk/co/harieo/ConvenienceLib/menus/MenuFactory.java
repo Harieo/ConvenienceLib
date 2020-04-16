@@ -72,10 +72,32 @@ public abstract class MenuFactory {
 	}
 
 	/**
+	 * Adds an {@link MenuItem} in the next available slot. Throws {@link IllegalStateException} if there
+	 * are no available slots remaining.
+	 *
+	 * @param player the player to add the item to.
+	 * @param item the menu item.
+	 */
+	public void addItem(Player player, MenuItem item) {
+		int slot;
+		for (slot = 0; slot < slots; slot++) {
+			if (!items.contains(player.getUniqueId(), slot)) {
+				break;
+			}
+		}
+
+		if (slot >= slots) {
+			throw new IllegalStateException("cannot add to a full inventory (slots: " + slot + ")");
+		}
+		items.put(player.getUniqueId(), slot, item);
+		updateSlot(player, slot); // Updates any open menus
+	}
+
+	/**
 	 * Sets the {@link MenuItem} for a specified slot. This will overwrite any previous item in that slot.
 	 *
-	 * @param slot for the menu item to take up
-	 * @param item the menu item
+	 * @param slot for the menu item to take up.
+	 * @param item the menu item.
 	 */
 	public void setItem(Player player, int slot, MenuItem item) {
 		if (slot < slots) {
@@ -173,4 +195,17 @@ public abstract class MenuFactory {
 		Bukkit.getPluginManager().registerEvents(interactionListener, plugin);
 	}
 
+	void cleanup(Player player) {
+
+		// remove items for the player
+		Map<Integer, MenuItem> itemsForPlayer = items.row(player.getUniqueId());
+		if (itemsForPlayer != null) {
+			for (Integer i : itemsForPlayer.keySet()) {
+				items.remove(player.getUniqueId(), i);
+			}
+		}
+
+		// delete MenuImpl instance
+		implementations.remove(player.getUniqueId());
+	}
 }
