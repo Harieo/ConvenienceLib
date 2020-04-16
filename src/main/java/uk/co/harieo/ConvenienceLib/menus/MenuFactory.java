@@ -196,7 +196,6 @@ public abstract class MenuFactory {
 	}
 
 	void cleanup(Player player) {
-
 		// remove items for the player
 		Map<Integer, MenuItem> itemsForPlayer = items.row(player.getUniqueId());
 		if (itemsForPlayer != null) {
