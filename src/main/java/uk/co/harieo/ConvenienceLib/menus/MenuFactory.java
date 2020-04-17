@@ -13,7 +13,7 @@ import java.util.*;
  * purposes of handling interaction which is totally controlled by the system. This means that unless the system allows
  * it, a player can't edit this menu.
  *
- * All items in this factory are player-specific and should be set via {@link #setPlayerItems(Player)} in extensions
+ * All items in this factory are player-specific and should be set via {@link #setPlayerItems(Player, int)} in extensions
  * of this class.
  *
  * @author Harieo
@@ -72,10 +72,32 @@ public abstract class MenuFactory {
 	}
 
 	/**
+	 * Adds an {@link MenuItem} in the next available slot. Throws {@link IllegalStateException} if there
+	 * are no available slots remaining.
+	 *
+	 * @param player the player to add the item to.
+	 * @param item the menu item.
+	 */
+	public void addItem(Player player, MenuItem item) {
+		int slot;
+		for (slot = 0; slot < slots; slot++) {
+			if (!items.contains(player.getUniqueId(), slot)) {
+				break;
+			}
+		}
+
+		if (slot >= slots) {
+			throw new IllegalStateException("cannot add to a full inventory (slots: " + slot + ")");
+		}
+		items.put(player.getUniqueId(), slot, item);
+		updateSlot(player, slot); // Updates any open menus
+	}
+
+	/**
 	 * Sets the {@link MenuItem} for a specified slot. This will overwrite any previous item in that slot.
 	 *
-	 * @param slot for the menu item to take up
-	 * @param item the menu item
+	 * @param slot for the menu item to take up.
+	 * @param item the menu item.
 	 */
 	public void setItem(Player player, int slot, MenuItem item) {
 		if (slot < slots) {
@@ -110,15 +132,6 @@ public abstract class MenuFactory {
 	 * @param page the page should this factory be using pages (can be ignored)
 	 */
 	public abstract void setPlayerItems(Player player, int page);
-
-	/**
-	 * Overloads {@link #setPlayerItems(Player, int)} with page as 1
-	 *
-	 * @param player to set the items for
-	 */
-	public void setPlayerItems(Player player) {
-		setPlayerItems(player, 1);
-	}
 
 	/**
 	 * Retrieves the already created instance of {@link MenuImpl} or creates a new one for the specified player
@@ -173,4 +186,21 @@ public abstract class MenuFactory {
 		Bukkit.getPluginManager().registerEvents(interactionListener, plugin);
 	}
 
+	/**
+	 * Removes all cached inventories and items for a specified player
+	 *
+	 * @param player to remove all implementations for
+	 */
+	void cleanup(Player player) {
+		// remove items for the player
+		Map<Integer, MenuItem> itemsForPlayer = items.row(player.getUniqueId());
+		if (itemsForPlayer != null) {
+			for (Integer i : new ArrayList<>(itemsForPlayer.keySet())) {
+				items.remove(player.getUniqueId(), i);
+			}
+		}
+
+		// delete MenuImpl instance
+		implementations.remove(player.getUniqueId());
+	}
 }
