@@ -186,6 +186,11 @@ public abstract class MenuFactory {
 		Bukkit.getPluginManager().registerEvents(interactionListener, plugin);
 	}
 
+	/**
+	 * Removes all cached inventories and items for a specified player
+	 *
+	 * @param player to remove all implementations for
+	 */
 	void cleanup(Player player) {
 		// remove items for the player
 		Map<Integer, MenuItem> itemsForPlayer = items.row(player.getUniqueId());
