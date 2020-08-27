@@ -18,17 +18,17 @@ import uk.co.harieo.ConvenienceLib.scoreboards.elements.RenderableElement;
  */
 public class GameBoardImpl {
 
-	private static List<GameBoardImpl> cache = new ArrayList<>(); // A list of active implementations
+	private static final List<GameBoardImpl> cache = new ArrayList<>(); // A list of active implementations
 
-	private GameBoard gameBoard;
-	private Player player;
-	private Map<Integer, RenderableElement> elements;
-	private int updateTime;
-	private Plugin plugin;
+	private final GameBoard gameBoard;
+	private final Player player;
+	private final Map<Integer, RenderableElement> elements;
+	private final int updateTime;
+	private final Plugin plugin;
 
-	private Scoreboard scoreboard;
-	private Objective objective;
-	private Map<Integer, Team> teams = new HashMap<>(15);
+	private final Scoreboard scoreboard;
+	private final Objective objective;
+	private final Map<Integer, Team> teams = new HashMap<>(15);
 
 	private BukkitRunnable runnable;
 	private Consumer<Scoreboard> beforeRender;
@@ -116,18 +116,105 @@ public class GameBoardImpl {
 	 *
 	 * @param team to put the compressed text into
 	 * @param text to be compressed
-	 * @throws IllegalArgumentException if the string was more than 32 characters, including after compression
+	 * @throws IllegalArgumentException if the string was more than the maximum allowed characters, including after
+	 * compression
 	 */
 	private void compressText(Team team, String text) throws IllegalArgumentException {
 		// Teams only allow up to 16 chars so we'll split them in half and feed the second half into suffix
 		String prefix = text;
-		String suffix = null; // Anything under 16 doesn't need editing
-		if (prefix.length() > 32) { // Using scoreboard content isn't dynamic enough so max at 32
-			throw new IllegalArgumentException("An element had more than 32 characters: " + prefix);
-		} else if (prefix.length() > 16) { // Splitting is required now
-			suffix = prefix.substring(15);
-			prefix = prefix.substring(0, prefix.length() - suffix.length());
-			suffix = ChatColor.getLastColors(prefix) + suffix; // Fix any color leakage due to the split
+		String suffix = null;
+
+		int maxSplit = 16; // The maximum amount of characters allowed in either the prefix or suffix
+		if (prefix.length() > maxSplit * 2) { // Using scoreboard content isn't dynamic enough so max at 32
+			throw new IllegalArgumentException("An element had more than " + (maxSplit * 2) + " characters: " + prefix);
+		} else if (prefix.length() > maxSplit) { // Splitting is required now
+			char[] textChars = text.toCharArray();
+			List<String> textElements = new ArrayList<>();
+
+			StringBuilder stringBuilder = new StringBuilder();
+			for (int i = 0; i < text.length(); i++) { // Iterate through all the characters of text
+				char character = textChars[i];
+				if (character == ChatColor.COLOR_CHAR) { // If we've found a colour code
+					if (stringBuilder.length() > 0) { // If there was standard text for this
+						textElements.add(stringBuilder.toString()); // Add that text as an element
+						stringBuilder = new StringBuilder(); // Reset for use below
+					}
+
+					// Checking if there are more colour codes after this one
+					while (character == ChatColor.COLOR_CHAR) {
+						stringBuilder.append(character); // This should just be the colour char
+						if (i + 1 < textChars.length) { // Make sure the actual code can be found
+							stringBuilder.append(textChars[i + 1]);
+						} else {
+							break; // If we don't have +1 index, the below will automatically fail when trying +2 index
+						}
+
+						i += 2; // Add 2 to get to the next possible code because this one has already been handled above
+
+						if (i < textChars.length) { // If there is a character after these 2
+							character = textChars[i];
+							if (character != ChatColor.COLOR_CHAR) {
+								// This while loop will quit but the for loop will add 1, resulting in a lost char
+								i -= 1;
+							}
+						} else {
+							break;
+						}
+					}
+
+					textElements.add(stringBuilder.toString());
+					stringBuilder = new StringBuilder();
+				} else {
+					stringBuilder.append(character);
+				}
+			}
+
+			if (stringBuilder.length() > 0) { // If anything is left
+				textElements.add(stringBuilder.toString()); // Add to elements
+			}
+
+			StringBuilder prefixBuffer = new StringBuilder();
+			StringBuilder suffixBuffer = new StringBuilder();
+			for (String element : textElements) { // Add elements to the prefix and suffix where possible
+				int elementLength = element.length();
+				int currentPrefixLength = prefixBuffer.length();
+				int currentSuffixLength = suffixBuffer.length();
+
+				boolean hasNoSuffix = currentSuffixLength == 0;
+
+				if (!element.contains(String.valueOf(ChatColor.COLOR_CHAR))) { // If this string isn't a colour code
+					// Attempt to split the string into two pieces for the prefix and suffix
+					int prefixLengthDifference = maxSplit - currentPrefixLength;
+					int suffixLengthDifference = maxSplit - currentSuffixLength;
+
+					int subIndex = 0;
+					if (prefixLengthDifference > 0 && hasNoSuffix) { // Don't add to prefix if using suffix
+						subIndex = prefixLengthDifference;
+						if (subIndex >= elementLength) {
+							subIndex = elementLength;
+						}
+
+						prefixBuffer.append(element, 0, subIndex);
+					}
+
+					if (subIndex < elementLength && suffixLengthDifference > 0) {
+						int suffixIndexEnd = subIndex + suffixLengthDifference;
+						suffixBuffer.append(element, subIndex,
+								Math.min(suffixIndexEnd, elementLength));
+					}
+				} else if (currentPrefixLength + elementLength <= maxSplit
+						&& hasNoSuffix) { // If the entire string fits into the prefix
+					prefixBuffer.append(element);
+				} else if (currentSuffixLength + elementLength
+						<= maxSplit) { // If the entire string fits into the suffix
+					suffixBuffer.append(element);
+				} else {
+					throw new IllegalStateException("Elements don't fit a " + maxSplit + "-character split");
+				}
+			}
+
+			prefix = prefixBuffer.toString();
+			suffix = suffixBuffer.toString();
 		}
 
 		team.setPrefix(prefix);
