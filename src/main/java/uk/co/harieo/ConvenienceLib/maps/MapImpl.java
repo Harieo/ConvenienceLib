@@ -9,10 +9,8 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import java.io.*;
 import java.nio.file.FileAlreadyExistsException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.function.Predicate;
 
 /**
  * This class stores plots (single locations) from a world then commits them to a JSON formatted file inside the world
@@ -27,14 +25,14 @@ import java.util.Map;
  */
 public class MapImpl {
 
-	private static Map<World, MapImpl> CACHE = new HashMap<>();
+	private static final Map<World, MapImpl> CACHE = new HashMap<>();
 
-	private World world;
-	private Map<Location, String> plottedLocations = new HashMap<>();
+	private final World world;
+	private final List<LocationPair> plottedLocations = new ArrayList<>();
 
 	// Map settings //
 	private String fullName; // Different from the world name, set by the user
-	private List<String> authors = new ArrayList<>();
+	private final List<String> authors = new ArrayList<>();
 
 	private MapImpl(World world) {
 		this.world = world;
@@ -50,14 +48,15 @@ public class MapImpl {
 	 * Adds a location with a String id to be identified as an important location for this map. Plotted locations will
 	 * be written to external file then can be read by another system.
 	 *
-	 * @param locationId name of this location
 	 * @param location the location
+	 * @param key the string key
+	 * @param value the string value
 	 */
-	public void addLocation(String locationId, Location location) {
-		if (!location.getWorld().equals(world)) {
+	public void addLocation(Location location, String key, String value) {
+		if (!Objects.equals(location.getWorld(), world)) { // Null proof equals statement
 			throw new IllegalArgumentException("Attempt to plot location from different world");
-		} else if (!plottedLocations.containsKey(location)) { // Prevent duplicate entries
-			plottedLocations.put(location, locationId);
+		} else if (!isLocationPlotted(location)) { // Prevent duplicate entries
+			plottedLocations.add(new LocationPair(location, key, value));
 		}
 	}
 
@@ -66,17 +65,32 @@ public class MapImpl {
 	 *
 	 * @param location to be removed
 	 */
-	public void removeLocation(Location location) {
-		Location locToRemove = null; // This is to prevent concurrent modification on remove
-		for (Location loc : plottedLocations.keySet()) {
-			if (location.equals(loc)) {
-				locToRemove = loc;
-			}
-		}
-
+	public void removeFirstLocation(Location location) {
+		LocationPair locToRemove = getFirstLocationPair(
+				location); // This is to prevent concurrent modification on remove
 		if (locToRemove != null) {
 			plottedLocations.remove(locToRemove);
 		}
+	}
+
+	/**
+	 * Removes a location pair directly
+	 *
+	 * @param pair to be removed
+	 */
+	public void removeLocation(LocationPair pair) {
+		plottedLocations.remove(pair);
+	}
+
+	/**
+	 * Removes location pairs based on location and pair key
+	 *
+	 * @param location to compare to location pairs
+	 * @param key to compare to location pairs
+	 */
+	public void removeLocations(Location location, String key) {
+		getByCondition(pair -> pair.compareLocations(location) && pair.getKey().equals(key))
+				.forEach(plottedLocations::remove);
 	}
 
 	/**
@@ -86,37 +100,55 @@ public class MapImpl {
 	 * @return whether the location was found
 	 */
 	public boolean isLocationPlotted(Location location) {
-		for (Location loc : plottedLocations.keySet()) {
-			if (loc.getBlockX() == location.getBlockX() && loc.getBlockY() == location.getBlockY()
-					&& loc.getBlockZ() == location.getBlockZ()) {
-				return true;
-			}
-		}
-		return false;
-	}
-
-	/**
-	 * Checks whether a locationId is being used
-	 *
-	 * @param locationId to check the map for
-	 * @return whether the locationId was found
-	 */
-	public boolean isLocationPlotted(String locationId) {
-		return plottedLocations.containsValue(locationId);
+		return getFirstLocationPair(location) != null;
 	}
 
 	/**
 	 * Retrieves a list of {@link Location} by their locationId. As the map allows for duplicates, there will be no
 	 * singular value unless it was specifically input by the user as such.
 	 *
-	 * @param locationId of the locations
+	 * @param key the string key of the location
 	 * @return a list of locations with matching id
 	 */
-	public List<Location> getLocations(String locationId) {
-		List<Location> list = new ArrayList<>();
-		for (Location location : plottedLocations.keySet()) {
-			String id = plottedLocations.get(location);
-			if (locationId.equals(id)) {
+	public List<LocationPair> getLocationsByKey(String key) {
+		return getByCondition(pair -> pair.getKey().equals(key));
+	}
+
+	/**
+	 * Retrieves a pair with data for a given location
+	 *
+	 * @param location to get the data for
+	 * @return the matching pair
+	 */
+	public LocationPair getFirstLocationPair(Location location) {
+		List<LocationPair> pairs = getByCondition(pair -> pair.compareLocations(location));
+		if (pairs.isEmpty()) {
+			return null;
+		} else {
+			return pairs.get(0);
+		}
+	}
+
+	/**
+	 * Retrieves all pairs for the given location
+	 *
+	 * @param location to get pairs for
+	 * @return a list of all pairs for the location
+	 */
+	public List<LocationPair> getLocationPairs(Location location) {
+		return getByCondition(pair -> pair.compareLocations(location));
+	}
+
+	/**
+	 * Retrives all location pairs which match the predicated condition
+	 *
+	 * @param condition to test pairs with
+	 * @return a list of pairs which match the predicate
+	 */
+	private List<LocationPair> getByCondition(Predicate<LocationPair> condition) {
+		List<LocationPair> list = new ArrayList<>();
+		for (LocationPair location : plottedLocations) {
+			if (condition.test(location)) {
 				list.add(location);
 			}
 		}
@@ -126,15 +158,15 @@ public class MapImpl {
 	/**
 	 * @return all stored plotted locations with their ids
 	 */
-	public Map<Location, String> getAllLocations() {
+	public List<LocationPair> getAllLocations() {
 		return plottedLocations;
 	}
 
 	/**
 	 * @return a list of locations with a locationId of "spawn"
 	 */
-	public List<Location> getSpawns() {
-		return getLocations("spawn");
+	public List<LocationPair> getSpawns() {
+		return getLocationsByKey("spawn");
 	}
 
 	/**
@@ -187,13 +219,33 @@ public class MapImpl {
 		return authors;
 	}
 
+	/**
+	 * Formats the list of authors into a single string with proper punctuation
+	 *
+	 * @return the formatted string of authors
+	 */
+	public String getAuthorsString() {
+		StringBuilder builder = new StringBuilder();
+		List<String> authors = getAuthors();
+		for (int i = 0; i < authors.size(); i++) {
+			String author = authors.get(i);
+			builder.append(author);
+			if (i + 2 == authors.size()) {
+				builder.append(" and ");
+			} else if (i + 1 < authors.size()) {
+				builder.append(", ");
+			}
+		}
+		return builder.toString();
+	}
+
 	// Finalisation //
 
 	/**
 	 * @return whether the plotted locations contains "spawn", has a full name and has at least 1 author
 	 */
 	public boolean isValid() {
-		return plottedLocations.containsValue("spawn") && fullName != null && !authors.isEmpty();
+		return fullName != null && !authors.isEmpty();
 	}
 
 	/**
@@ -219,13 +271,16 @@ public class MapImpl {
 		json.add("authors", authorArray);
 
 		JsonArray locationArray = new JsonArray();
-		for (Location location : plottedLocations.keySet()) {
+		for (LocationPair locationPair : plottedLocations) {
 			JsonObject locationObject = new JsonObject();
-			String id = plottedLocations.get(location);
-			locationObject.addProperty("id", id);
+			Location location = locationPair.getLocation();
+			locationObject.addProperty("key", locationPair.getKey());
+			locationObject.addProperty("value", locationPair.getValue());
 			locationObject.addProperty("x", location.getBlockX());
 			locationObject.addProperty("y", location.getBlockY());
 			locationObject.addProperty("z", location.getBlockZ());
+			locationObject.addProperty("pitch", location.getPitch());
+			locationObject.addProperty("yaw", location.getYaw());
 			locationArray.add(locationObject);
 		}
 		json.add("locations", locationArray);
@@ -294,8 +349,10 @@ public class MapImpl {
 			for (JsonElement element : locationArray) {
 				JsonObject locationObject = element.getAsJsonObject();
 				Location location = new Location(world, locationObject.get("x").getAsInt(),
-						locationObject.get("y").getAsInt(), locationObject.get("z").getAsInt());
-				map.addLocation(locationObject.get("id").getAsString(), location);
+						locationObject.get("y").getAsInt(), locationObject.get("z").getAsInt(),
+						locationObject.get("yaw").getAsFloat(), locationObject.get("pitch").getAsFloat());
+				map.addLocation(location, locationObject.get("key").getAsString(),
+						locationObject.get("value").getAsString());
 			}
 
 			if (!map.isValid()) {
