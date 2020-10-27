@@ -20,12 +20,12 @@ import java.util.*;
  */
 public abstract class MenuFactory {
 
-	private String name;
-	private int slots;
+	private final String name;
+	private final int slots;
 
-	private Table<UUID, Integer, MenuItem> items;
-	private Map<UUID, MenuImpl> implementations = new HashMap<>();
-	private MenuInteractionListener interactionListener;
+	private final Table<UUID, Integer, MenuItem> items;
+	private final Map<UUID, MenuImpl> implementations = new HashMap<>();
+	private final MenuInteractionListener interactionListener;
 
 	/**
 	 * A new factory for creating menus

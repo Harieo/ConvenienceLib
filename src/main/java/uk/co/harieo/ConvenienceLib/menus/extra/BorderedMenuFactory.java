@@ -1,25 +1,23 @@
 package uk.co.harieo.ConvenienceLib.menus.extra;
 
-import org.bukkit.DyeColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
-import org.bukkit.material.Dye;
-import org.bukkit.material.MaterialData;
+
 import uk.co.harieo.ConvenienceLib.menus.MenuFactory;
 import uk.co.harieo.ConvenienceLib.menus.MenuItem;
 
 public abstract class BorderedMenuFactory extends MenuFactory {
 
-	private MenuItem border;
+	private final MenuItem border;
 
-	public BorderedMenuFactory(MaterialData data, String inventoryName, int rows) {
+	public BorderedMenuFactory(Material material, String inventoryName, int rows) {
 		super(inventoryName, rows);
 
-		this.border = new MenuItem(data.getItemType(), 1, data.getData());
+		this.border = new MenuItem(material, 1);
 	}
 
 	public BorderedMenuFactory(String inventoryName, int rows) {
-		this(new MaterialData(Material.STAINED_GLASS_PANE, DyeColor.BLACK.getWoolData()), inventoryName, rows);
+		this(Material.GRAY_STAINED_GLASS_PANE, inventoryName, rows);
 	}
 
 	@Override
