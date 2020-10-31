@@ -13,7 +13,7 @@ public abstract class BorderedMenuFactory extends MenuFactory {
 	public BorderedMenuFactory(Material material, String inventoryName, int rows) {
 		super(inventoryName, rows);
 
-		this.border = new MenuItem(material, 1);
+		this.border = new MenuItem(material);
 	}
 
 	public BorderedMenuFactory(String inventoryName, int rows) {
@@ -22,6 +22,7 @@ public abstract class BorderedMenuFactory extends MenuFactory {
 
 	@Override
 	public final void setPlayerItems(Player player, int page) {
+		clearItems(player);
 		for (int x = 0; x < 9; x++) {
 			setItem(player, x, border);
 			setItem(player, x + (getSlotSize() - 9), border);

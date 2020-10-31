@@ -1,11 +1,9 @@
 package uk.co.harieo.ConvenienceLib.menus;
 
-import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.inventory.Inventory;
 
 public class MenuInteractionListener implements Listener {
@@ -29,7 +27,7 @@ public class MenuInteractionListener implements Listener {
 			int slotClicked = event.getSlot();
 
 			Inventory clickedInventory = event.getClickedInventory();
-			Inventory factoryInventory = factory.getOrCreateMenu(player).getInventory();
+			Inventory factoryInventory = factory.getMenu(player).getInventory();
 
 			if (clickedInventory != null && clickedInventory.equals(factoryInventory)) {
 				event.setCancelled(true);

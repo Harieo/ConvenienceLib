@@ -6,6 +6,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.function.Consumer;
 
 /**
@@ -15,7 +16,7 @@ import java.util.function.Consumer;
  */
 public class MenuItem {
 
-	private ItemStack item;
+	private final ItemStack item;
 	private Consumer<Player> onClick;
 
 	/**
@@ -24,7 +25,9 @@ public class MenuItem {
 	 * @param material to set for the item
 	 * @param amount of the item
 	 * @param damage to set for the item
+	 * @deprecated because use of byte data is deprecated in this version of Spigot
 	 */
+	@Deprecated
 	public MenuItem(Material material, int amount, byte damage) {
 		this(new ItemStack(material, amount, damage));
 	}
@@ -71,7 +74,7 @@ public class MenuItem {
 	 * @return the name of this item
 	 */
 	public String getName() {
-		return item.getItemMeta().getDisplayName();
+		return Objects.requireNonNull(item.getItemMeta()).getDisplayName();
 	}
 
 	/**
@@ -88,7 +91,7 @@ public class MenuItem {
 	 * @return the lore of this item
 	 */
 	public List<String> getLore() {
-		return item.getItemMeta().getLore();
+		return Objects.requireNonNull(item.getItemMeta()).getLore();
 	}
 
 	/**

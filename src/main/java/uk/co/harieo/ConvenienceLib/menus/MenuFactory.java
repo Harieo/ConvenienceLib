@@ -165,6 +165,16 @@ public abstract class MenuFactory {
 	}
 
 	/**
+	 * Retrieves a cached {@link MenuImpl} if one exists
+	 *
+	 * @param player to get the cached menu for
+	 * @return the cached instance or null if none found
+	 */
+	public MenuImpl getMenu(Player player) {
+		return implementations.get(player.getUniqueId());
+	}
+
+	/**
 	 * Calls {@link MenuImpl#updateSlot(int)} for all instances inside this factory
 	 *
 	 * @param slot to be updated
