@@ -1,9 +1,15 @@
 # ConvenienceLib
-![Java CI](https://github.com/Harieo/ConvenienceLib/workflows/Java%20CI/badge.svg)
+![Java CI - Build](https://github.com/Harieo/ConvenienceLib/workflows/Java%20CI%20-%20Build/badge.svg)
 
 A library of code and APIs to make Spigot coding less of a hassle.  
-At the time of writing, this library was created in **Spigot v1.12.2** because 
-this is the most compatible version currently available.  
+
+This library is split into different Spigot versions due to issues that issue with compatibility with new versions. 
+These version-specific branches are labelled `Spigot-<version>` and the master branch will reflect only the very latest
+version of Spigot that this library supports.  
+
+Please clone from the branch holding the Spigot version you are working on.  
+**We support all Spigot versions which have a branch** as this library was designed to work with the most 
+popular versions, even if they may now be oudated.
 
 The library is an implementation of the Spigot API with changes that
 make it easier to use, such as 
@@ -12,9 +18,10 @@ and [tab-list](https://github.com/Harieo/ConvenienceLib/tree/master/src/main/jav
 handling APIs.
 
 ## Installation
-This library runs on Maven for compilation so we recommend using our Maven Repository for base use.
+This library runs on Maven for compilation, so we recommend using our Maven Repository to prevent having to clone from 
+our GitHub. 
 
-Use these in your pom.xml where necessary
+Firstly, add our remote repository which stores all of our artifacts:
 ```
         <repository>
             <id>nexus</id>
@@ -22,11 +29,18 @@ Use these in your pom.xml where necessary
             <url>http://repo.harieo.net/repository/maven-releases</url>
         </repository>
 ```
+
+Secondly, add the dependency. Change the version to `Spigot-<version>` where `<version>` is the Spigot version you're 
+developing on. For example, `Spigot-1.12.2`.  
+
+For a list of the versions we support, [consult our branch list](https://github.com/Harieo/ConvenienceLib/branches) 
+to see if it exists. If your version does not exist as a branch, we unfortunately don't support it at the moment.
+
 ```
         <dependency>
             <groupId>uk.co.harieo</groupId>
             <artifactId>ConvenienceLib</artifactId>
-            <version>1.0.1</version>
+            <version>Spigot-...</version>
         </dependency>
 ```
 
