@@ -3,7 +3,6 @@ package uk.co.harieo.ConvenienceLib.scoreboards.tablist.modules;
 import org.bukkit.entity.Player;
 
 import java.util.*;
-import uk.co.harieo.ConvenienceLib.exceptions.InvalidAffixException;
 
 /**
  * A generic processor which handles the processing of prefixes and suffixes for players in tab list.

@@ -25,12 +25,13 @@ import uk.co.harieo.ConvenienceLib.scoreboards.tablist.modules.TabListProcessor;
  */
 public class GameBoard {
 
-	private String displayName;
-	private DisplaySlot slot;
-	private Map<UUID, GameBoardImpl> impls = new HashMap<>();
-	private Map<Integer, RenderableElement> elements = new HashMap<>();
+	private final String displayName;
+	private final DisplaySlot slot;
+	private final Map<UUID, GameBoardImpl> impls = new HashMap<>();
+	private final Map<Integer, RenderableElement> elements = new HashMap<>();
+	private final TabListFactory tabListFactory = new TabListFactory(this);
+
 	private Consumer<Scoreboard> beforeRender;
-	private TabListFactory tabListFactory = new TabListFactory(this);
 
 	public GameBoard(String displayName, DisplaySlot displaySlot) {
 		this.displayName = displayName;

@@ -3,7 +3,6 @@ name: Java CI - Deploy
 on:
   push:
     branches:
-    - master
     - Spigot-*
 
 jobs:
