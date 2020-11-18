@@ -12,7 +12,7 @@ package uk.co.harieo.ConvenienceLib.scoreboards.tablist.modules;
  */
 public class Affix {
 
-	private String id;
+	private final String id;
 	private String prefix;
 	private String suffix;
 
