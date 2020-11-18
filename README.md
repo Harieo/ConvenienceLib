@@ -3,23 +3,19 @@
 
 A library of code and APIs to make Spigot coding less of a hassle.  
 
-This library is split into different Spigot versions due to issues that issue with compatibility with new versions. 
-These version-specific branches are labelled `Spigot-<version>` and the master branch will reflect only the very latest
+This library is split into different Spigot versions due to issues of compatibility with new versions after they're released. 
+These version-specific branches are labelled `Spigot-<version>` and the `master` branch will reflect only the very latest
 version of Spigot that this library supports.  
 
-Please clone from the branch holding the Spigot version you are working on.  
-**We support all Spigot versions which have a branch** as this library was designed to work with the most 
+Please clone from the branch holding the Spigot version you are working on or follow the steps below to use Maven.
+**We support all Spigot versions which have a branch** and this library was designed to work with the most 
 popular versions, even if they may now be oudated.
 
-The library is an implementation of the Spigot API with changes that
-make it easier to use, such as 
-[scoreboard](https://github.com/Harieo/ConvenienceLib/tree/master/src/main/java/uk/co/harieo/ConvenienceLib/scoreboards)
-and [tab-list](https://github.com/Harieo/ConvenienceLib/tree/master/src/main/java/uk/co/harieo/ConvenienceLib/scoreboards/tablist)
-handling APIs.
+The library is an implementation of the Spigot API which allows you to perform common tasks without having to copy and paste code constantly. 
 
 ## Installation
-This library runs on Maven for compilation, so we recommend using our Maven Repository to prevent having to clone from 
-our GitHub. 
+This library runs on Maven for compilation, so we recommend using our remote Maven repository to prevent having to clone from 
+our GitHub unnecessarily. 
 
 Firstly, add our remote repository which stores all of our artifacts:
 ```
