@@ -3,10 +3,10 @@ name: Java CI - Build
 on:
   pull_request:
     branches:
-    - master
     - Spigot-*
   push:
     branches:
+    - master
     - Spigot-*
 
 jobs:
