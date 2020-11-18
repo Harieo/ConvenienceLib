@@ -7,7 +7,6 @@ on:
     - Spigot-*
   push:
     branches:
-    - master
     - Spigot-*
 
 jobs:
