@@ -44,6 +44,12 @@ to see if it exists. If your version does not exist as a branch, we unfortunatel
         </dependency>
 ```
 
+When it comes to sub-versions such as `1.16.3` as a sub-version of `1.16`, this library should be compatible with all
+sub-versions as long as we have a branch for at least one. For example, our `Spigot-1.16.4` 
+should world with versions such as `1.16.3` because Spigot is, in most cases, backwards compatible between them.  
+
+This library will support the latest sub-version over all alternatives, as should all Spigot projects.
+
 ## Support
 If you have an issue with the library or wish to make a contribution, the full power of GitHub is at your disposal.  
 Please feel free to make [Pull Requests](https://github.com/Harieo/ConvenienceLib/pulls) and 
