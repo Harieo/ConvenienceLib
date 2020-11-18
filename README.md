@@ -23,11 +23,11 @@ our GitHub.
 
 Firstly, add our remote repository which stores all of our artifacts:
 ```
-        <repository>
-            <id>nexus</id>
-            <name>Releases</name>
-            <url>http://repo.harieo.net/repository/maven-releases</url>
-        </repository>
+<repository>
+    <id>nexus</id>
+    <name>Releases</name>
+    <url>http://repo.harieo.net/repository/maven-releases</url>
+</repository>
 ```
 
 Secondly, add the dependency. Change the version to `Spigot-<version>` where `<version>` is the Spigot version you're 
@@ -37,11 +37,11 @@ For a list of the versions we support, [consult our branch list](https://github.
 to see if it exists. If your version does not exist as a branch, we unfortunately don't support it at the moment.
 
 ```
-        <dependency>
-            <groupId>uk.co.harieo</groupId>
-            <artifactId>ConvenienceLib</artifactId>
-            <version>Spigot-...</version>
-        </dependency>
+<dependency>
+    <groupId>uk.co.harieo</groupId>
+    <artifactId>ConvenienceLib</artifactId>
+    <version>Spigot-...</version>
+</dependency>
 ```
 
 When it comes to sub-versions such as `1.16.3` as a sub-version of `1.16`, this library should be compatible with all
