@@ -2,22 +2,35 @@ package uk.co.harieo.ConvenienceLib.menus.extra;
 
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 
 import uk.co.harieo.ConvenienceLib.menus.MenuFactory;
 import uk.co.harieo.ConvenienceLib.menus.MenuItem;
 
+/**
+ * Contribution by deanveloper
+ * @author deanveloper
+ */
 public abstract class BorderedMenuFactory extends MenuFactory {
 
 	private final MenuItem border;
 
-	public BorderedMenuFactory(Material material, String inventoryName, int rows) {
+	/**
+	 * A menu factory which adds a border around the edge of the menu using the provided display item, containing
+	 * all added items inside it.
+	 *
+	 * @param displayItem to use as the border
+	 * @param inventoryName of the menu
+	 * @param rows in the menu
+	 */
+	public BorderedMenuFactory(ItemStack displayItem, String inventoryName, int rows) {
 		super(inventoryName, rows);
 
-		this.border = new MenuItem(material);
+		this.border = new MenuItem(displayItem);
 	}
 
 	public BorderedMenuFactory(String inventoryName, int rows) {
-		this(Material.GRAY_STAINED_GLASS_PANE, inventoryName, rows);
+		this(new ItemStack(Material.STAINED_GLASS_PANE, 1, (byte) 7), inventoryName, rows);
 	}
 
 	@Override

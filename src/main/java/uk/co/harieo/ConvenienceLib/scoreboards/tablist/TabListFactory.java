@@ -18,7 +18,7 @@ import uk.co.harieo.ConvenienceLib.scoreboards.tablist.modules.TabListProcessor;
  */
 public class TabListFactory {
 
-	private GameBoard gameBoard;
+	private final GameBoard gameBoard;
 	private TabListProcessor injectedProcessor;
 	private TeamHandler teamHandler;
 

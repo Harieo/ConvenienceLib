@@ -55,7 +55,7 @@ public class GameBoardImpl {
 		ScoreboardManager manager = Objects
 				.requireNonNull(Bukkit.getScoreboardManager(), "Scoreboard manager does not exist");
 		Scoreboard scoreboard = manager.getNewScoreboard();
-		Objective objective = scoreboard.registerNewObjective("main", "dummy", displayName);
+		Objective objective = scoreboard.registerNewObjective("main", "dummy");
 		objective.setDisplayName(displayName);
 		objective.setDisplaySlot(slot);
 		this.scoreboard = scoreboard;

@@ -3,7 +3,6 @@ package uk.co.harieo.ConvenienceLib.sql;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.io.File;
 import java.io.IOException;
 import uk.co.harieo.ConvenienceLib.config.ConfigurationHandler;
 

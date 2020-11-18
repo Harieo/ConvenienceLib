@@ -4,7 +4,7 @@ import org.bukkit.entity.Player;
 
 public class ConstantElement implements RenderableElement {
 
-	private String text;
+	private final String text;
 
 	/**
 	 * An implementation of {@link RenderableElement} that displays text which does not change on update

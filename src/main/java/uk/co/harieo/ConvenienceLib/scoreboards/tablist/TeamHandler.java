@@ -19,8 +19,8 @@ import uk.co.harieo.ConvenienceLib.scoreboards.tablist.modules.TabListProcessor;
  */
 public class TeamHandler {
 
-	private TabListProcessor processor;
-	private Table<GameBoardImpl, Affix, Team> teams = HashBasedTable.create();
+	private final TabListProcessor processor;
+	private final Table<GameBoardImpl, Affix, Team> teams = HashBasedTable.create();
 
 	/**
 	 * A new instance of this handler with a valid {@link TabListProcessor} to handle core processes
