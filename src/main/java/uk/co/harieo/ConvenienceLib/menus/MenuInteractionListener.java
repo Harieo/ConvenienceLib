@@ -1,11 +1,9 @@
 package uk.co.harieo.ConvenienceLib.menus;
 
-import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.inventory.Inventory;
 
 public class MenuInteractionListener implements Listener {
@@ -24,25 +22,23 @@ public class MenuInteractionListener implements Listener {
 
 	@EventHandler
 	public void onInventoryClick(InventoryClickEvent event) {
-		HumanEntity entity = event.getWhoClicked();
-		if (entity instanceof Player) {
-			Player player = (Player) entity;
-			Inventory inventory = event.getClickedInventory();
-			if (inventory != null && inventory.getName().equals(factory.getInventoryName())) {
+		if (event.getWhoClicked() instanceof Player) {
+			Player player = (Player) event.getWhoClicked();
+			int slotClicked = event.getSlot();
+
+			Inventory clickedInventory = event.getClickedInventory();
+			Inventory factoryInventory = factory.getMenu(player).getInventory();
+
+			if (clickedInventory != null && clickedInventory.equals(factoryInventory)) {
 				event.setCancelled(true);
-				MenuItem item = factory.getItem(player, event.getSlot());
+				MenuItem item = factory.getItem(player, slotClicked);
 				if (item != null) {
 					item.onClick(player);
 				}
+			} else if (event.isShiftClick() && event.getView().getTopInventory().equals(factoryInventory)) {
+				event.setCancelled(true); // Stop items merging with the factory inventory
 			}
 		}
 	}
 
-	@EventHandler
-	public void onInventoryClose(InventoryCloseEvent event) {
-		HumanEntity entity = event.getPlayer();
-		if (entity instanceof Player) {
-			factory.cleanup((Player) entity);
-		}
-	}
 }

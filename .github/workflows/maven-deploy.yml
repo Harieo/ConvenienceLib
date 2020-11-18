@@ -1,0 +1,26 @@
+name: Java CI - Deploy
+
+on:
+  push:
+    branches:
+    - master
+    - Spigot-*
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      -   uses: actions/checkout@v2
+      -   name: Set up Maven Central Repository
+          uses: actions/setup-java@v1
+          with:
+            java-version: 1.8
+            server-id: nexus
+            server-username: MAVEN_USERNAME
+            server-password: MAVEN_PASSWORD
+      -   name: Publish package
+          run: mvn -B deploy
+          env:
+            MAVEN_USERNAME: ${{ secrets.REPO_USERNAME }}
+            MAVEN_PASSWORD: ${{ secrets.REPO_PASSWORD }}

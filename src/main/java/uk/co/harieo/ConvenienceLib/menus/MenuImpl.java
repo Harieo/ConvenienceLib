@@ -12,9 +12,9 @@ import org.bukkit.inventory.Inventory;
  */
 public class MenuImpl {
 
-	private MenuFactory factory;
+	private final MenuFactory factory;
 	private Player player;
-	private Inventory inventory;
+	private final Inventory inventory;
 
 	/**
 	 * An implementation of {@link Inventory} for a Player
