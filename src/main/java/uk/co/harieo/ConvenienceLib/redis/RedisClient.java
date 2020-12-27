@@ -1,12 +1,16 @@
 package uk.co.harieo.ConvenienceLib.redis;
 
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.function.Consumer;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 import uk.co.harieo.ConvenienceLib.database.DatabaseManager;
 
 public class RedisClient {
+
+	private static final ExecutorService executorService = Executors.newCachedThreadPool();
 
 	private final DatabaseManager databaseManager;
 
@@ -53,7 +57,7 @@ public class RedisClient {
 			try (Jedis jedis = pool.getResource()) {
 				consumer.accept(jedis);
 			}
-		});
+		}, executorService);
 	}
 
 }
