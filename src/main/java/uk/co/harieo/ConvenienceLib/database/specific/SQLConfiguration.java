@@ -1,58 +1,29 @@
-package uk.co.harieo.ConvenienceLib.sql;
+package uk.co.harieo.ConvenienceLib.database.specific;
 
 import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.plugin.java.JavaPlugin;
 
-import java.io.IOException;
-import uk.co.harieo.ConvenienceLib.config.ConfigurationHandler;
+public class SQLConfiguration {
 
-public class DatabaseConfiguration extends ConfigurationHandler {
-
-	private static final String FILE_NAME = "database.yml";
-
-	private boolean loaded = false;
-
-	private String host;
-	private int port;
-	private String database;
-	private String username;
-	private String password;
-	private String append;
+	private final String host;
+	private final int port;
+	private final String database;
+	private final String username;
+	private final String password;
+	private final String append;
 
 	/**
-	 * A handler which retrieves database configuration values
+	 * Takes a {@link FileConfiguration} assuming it is formatted like the resource database.yml and parses all
+	 * values relating to MySQL configuration
 	 *
-	 * @param plugin which is running this configuraton
+	 * @param configuration which holds the SQL database configuration values
 	 */
-	public DatabaseConfiguration(JavaPlugin plugin) {
-		super(plugin, FILE_NAME);
-		try {
-			parseValues(getYamlConfiguration());
-			loaded = true;
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
-
-	/**
-	 * Parses values from the configuration, setting them as fields of this class
-	 *
-	 * @param configuration to parse values from
-	 */
-	private void parseValues(FileConfiguration configuration) {
+	public SQLConfiguration(FileConfiguration configuration) {
 		host = configuration.getString("mysql.host");
 		port = configuration.getInt("mysql.port");
 		database = configuration.getString("mysql.database");
 		username = configuration.getString("mysql.username");
 		password = configuration.getString("mysql.password");
 		append = configuration.getString("mysql.append");
-	}
-
-	/**
-	 * @return whether the values have been successfully parsed
-	 */
-	public boolean isLoaded() {
-		return loaded;
 	}
 
 	/**
