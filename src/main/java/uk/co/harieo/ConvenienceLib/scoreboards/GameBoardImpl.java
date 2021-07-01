@@ -208,7 +208,7 @@ public class GameBoardImpl {
 					int nextIndex = textElements.indexOf(element) + 1;
 					if (nextIndex < textElements.size()) { // If there is a next element
 						// If this element (a colour code) plus the next element (unknown type) will breach the prefix limit
-						if (currentPrefixLength + elementLength >= maxSplit) {
+						if (currentPrefixLength + elementLength > maxSplit - currentPrefixLength) {
 							// Then prevent the colour code being split from the next element
 							forceOverflow = true;
 						}
