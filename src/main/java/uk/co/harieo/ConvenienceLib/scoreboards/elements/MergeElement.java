@@ -14,6 +14,16 @@ public class MergeElement implements RenderableElement {
 
     private final List<RenderableElement> elements = new ArrayList<>();
 
+    public MergeElement() {} // Allow blank construction for use as an object
+
+    public MergeElement(String element) {
+        append(element);
+    }
+
+    public MergeElement(RenderableElement element) {
+        append(element);
+    }
+
     public MergeElement append(RenderableElement element) {
         elements.add(element);
         return this;
