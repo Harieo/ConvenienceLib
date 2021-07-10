@@ -27,7 +27,10 @@ public class MenuInteractionListener implements Listener {
 			int slotClicked = event.getSlot();
 
 			Inventory clickedInventory = event.getClickedInventory();
-			Inventory factoryInventory = factory.getMenu(player).getInventory();
+			MenuImpl factoryMenuImpl = factory.getMenu(player);
+			if (factoryMenuImpl == null) // They may be clicking a menu from another factory
+				return;
+			Inventory factoryInventory = factoryMenuImpl.getInventory();
 
 			if (clickedInventory != null && clickedInventory.equals(factoryInventory)) {
 				event.setCancelled(true);
