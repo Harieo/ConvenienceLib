@@ -2,22 +2,26 @@
 ![Java CI - Build](https://github.com/Harieo/ConvenienceLib/workflows/Java%20CI%20-%20Build/badge.svg)
 
 A library of code and APIs to make Spigot coding less of a hassle.  
-
-This library is split into different Spigot versions due to issues of compatibility with new versions after they're released. 
-These version-specific branches are labelled `Spigot-<version>` and the `master` branch will reflect only the very latest
-version of Spigot that this library supports.  
-
-Please clone from the branch holding the Spigot version you are working on or follow the steps below to use Maven.
-**We support all Spigot versions which have a branch** and this library was designed to work with the most 
-popular versions, even if they may now be oudated.
-
 The library is an implementation of the Spigot API which allows you to perform common tasks without having to copy and paste code constantly. 
+
+As of version 1.1.0, the library now uses a more typical semantic versioning system. However, this also means that older Spigot versions will no longer be fully supported. We will aim to keep up to date with the latest Spigot versions moving forward and discontinue providing updates for older versions.
+
+Please **discontinue** use of the Spigot-* versions. Instead, use our new semantic versioning system (1.#.#) as it provides better version control.
+
+Please consult the chart and use the latest library version for the Spigot version you intend to use.
+
+| Version       | Supported Spigot Version     |
+| ------------- | ---------------------------- |
+| Spigot-1.12.2 | 1.12.2                       |
+| Spigot-1.16.4 | 1.16.4                       |
+| Spigot-1.16.5 | 1.16.5                       |
+| 1.1.0         | 1.17.1                       |
 
 ## Installation
 This library runs on Maven for compilation, so we recommend using our remote Maven repository to prevent having to clone from 
 our GitHub unnecessarily. 
 
-Firstly, add our remote repository which stores all of our artifacts:
+First, add our remote repository which stores all of our artifacts:
 ```
 <repository>
     <id>nexus</id>
@@ -26,25 +30,19 @@ Firstly, add our remote repository which stores all of our artifacts:
 </repository>
 ```
 
-Secondly, add the dependency. Change the version to `Spigot-<version>` where `<version>` is the Spigot version you're 
-developing on. For example, `Spigot-1.12.2`.  
-
-For a list of the versions we support, [consult our branch list](https://github.com/Harieo/ConvenienceLib/branches) 
-to see if it exists. If your version does not exist as a branch, we unfortunately don't support it at the moment.
-
+Second, add the dependency.
 ```
 <dependency>
     <groupId>uk.co.harieo</groupId>
     <artifactId>ConvenienceLib</artifactId>
-    <version>Spigot-...</version>
+    <version>1.1.0</version>
+    <scope>compile</scope>
 </dependency>
 ```
 
-When it comes to sub-versions such as `1.16.3` as a sub-version of `1.16`, this library should be compatible with all
-sub-versions as long as we have a branch for at least one. For example, our `Spigot-1.16.4` 
-should world with versions such as `1.16.3` because Spigot is, in most cases, backwards compatible between them.  
+Please consult the chart of versions above if you want to support an older version of Spigot. Simply change the version in the dependency as required.
 
-This library will support the latest sub-version over all alternatives, as should all Spigot projects.
+**If you wish to compile the library into your plugin**, to prevent having to distribute the library as a separate jar, we recommend making use of [Maven Compiler](https://maven.apache.org/plugins/maven-compiler-plugin/) and [Maven Shade](https://maven.apache.org/plugins/maven-shade-plugin/).
 
 ## Support
 If you have an issue with the library or wish to make a contribution, the full power of GitHub is at your disposal.  
