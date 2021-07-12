@@ -3,11 +3,12 @@ name: Java CI - Build
 on:
   pull_request:
     branches:
-    - Spigot-*
+      - master
+      - Spigot-*
   push:
     branches:
-    - master
-    - Spigot-*
+      - master
+      - Spigot-*
 
 jobs:
   build:
