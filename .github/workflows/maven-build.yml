@@ -4,10 +4,12 @@ on:
   pull_request:
     branches:
       - master
+      - release/*
       - Spigot-*
   push:
     branches:
       - master
+      - release/*
       - Spigot-*
 
 jobs:
