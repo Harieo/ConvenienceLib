@@ -10,12 +10,13 @@ Please **discontinue** use of the Spigot-* versions. Instead, use our new semant
 
 Please consult the chart and use the latest library version for the Spigot version you intend to use.
 
-| Version       | Supported Spigot Version     |
-| ------------- | ---------------------------- |
-| Spigot-1.12.2 | 1.12.2                       |
-| Spigot-1.16.4 | 1.16.4                       |
-| Spigot-1.16.5 | 1.16.5                       |
-| 1.1.0         | 1.17.1                       |
+| Version       | Supported Spigot Version     | Changes                                   |
+| ------------- | ---------------------------- | ----------------------------------------- |
+| Spigot-1.12.2 | 1.12.2                       | Support for 1.12.2                        |
+| Spigot-1.16.4 | 1.16.4                       | Support for 1.16.4                        |
+| Spigot-1.16.5 | 1.16.5                       | Support for 1.16.5                        |
+| 1.1.0         | 1.17.1                       | Changed to Java 16 and 1.17.1 Spigot      |
+| 1.1.1         | 1.17.1                       | Changed the way menu interaction works    |
 
 ## Installation
 This library runs on Maven for compilation, so we recommend using our remote Maven repository to prevent having to clone from 
