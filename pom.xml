@@ -6,10 +6,9 @@
 
     <groupId>uk.co.harieo</groupId>
     <artifactId>ConvenienceLib</artifactId>
-    <version>1.1.1</version>
+    <version>1.1.2</version>
 
     <properties>
-        <java.version>16</java.version>
         <maven.compiler.source>16</maven.compiler.source>
         <maven.compiler.target>16</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -26,7 +25,7 @@
         <dependency>
             <groupId>org.spigotmc</groupId>
             <artifactId>spigot-api</artifactId>
-            <version>1.17.1-R0.1-SNAPSHOT</version>
+            <version>1.18.2-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
