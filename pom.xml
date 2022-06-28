@@ -39,15 +39,10 @@
 
     <distributionManagement>
         <repository>
-            <id>nexus</id>
+            <id>harieo-repo</id>
             <name>Releases</name>
-            <url>http://repo.harieo.net/repository/maven-releases</url>
+            <url>https://repo.harieo.net/repository/maven-releases</url>
         </repository>
-        <snapshotRepository>
-            <id>nexus</id>
-            <name>Snapshot</name>
-            <url>http://repo.harieo.net/repository/maven-snapshots</url>
-        </snapshotRepository>
     </distributionManagement>
 
 </project>
