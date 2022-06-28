@@ -16,7 +16,7 @@ jobs:
           uses: actions/setup-java@v1
           with:
             java-version: 17
-            server-id: nexus
+            server-id: harieo-repo
             server-username: MAVEN_USERNAME
             server-password: MAVEN_PASSWORD
       -   name: Publish package
