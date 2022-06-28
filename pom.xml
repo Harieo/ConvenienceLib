@@ -6,12 +6,11 @@
 
     <groupId>uk.co.harieo</groupId>
     <artifactId>ConvenienceLib</artifactId>
-    <version>1.1.1</version>
+    <version>1.1.2</version>
 
     <properties>
-        <java.version>16</java.version>
-        <maven.compiler.source>16</maven.compiler.source>
-        <maven.compiler.target>16</maven.compiler.target>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
@@ -26,13 +25,13 @@
         <dependency>
             <groupId>org.spigotmc</groupId>
             <artifactId>spigot-api</artifactId>
-            <version>1.17.1-R0.1-SNAPSHOT</version>
+            <version>1.19-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>redis.clients</groupId>
             <artifactId>jedis</artifactId>
-            <version>3.3.0</version>
+            <version>4.2.3</version>
             <type>jar</type>
             <scope>compile</scope>
         </dependency>
@@ -40,15 +39,10 @@
 
     <distributionManagement>
         <repository>
-            <id>nexus</id>
+            <id>harieo-repo</id>
             <name>Releases</name>
-            <url>http://repo.harieo.net/repository/maven-releases</url>
+            <url>https://repo.harieo.net/repository/maven-releases</url>
         </repository>
-        <snapshotRepository>
-            <id>nexus</id>
-            <name>Snapshot</name>
-            <url>http://repo.harieo.net/repository/maven-snapshots</url>
-        </snapshotRepository>
     </distributionManagement>
 
 </project>
