@@ -6,7 +6,7 @@
 
     <groupId>uk.co.harieo</groupId>
     <artifactId>ConvenienceLib</artifactId>
-    <version>1.1.2</version>
+    <version>1.1.3</version>
 
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
@@ -25,13 +25,13 @@
         <dependency>
             <groupId>org.spigotmc</groupId>
             <artifactId>spigot-api</artifactId>
-            <version>1.19-R0.1-SNAPSHOT</version>
+            <version>1.20.1-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>redis.clients</groupId>
             <artifactId>jedis</artifactId>
-            <version>4.2.3</version>
+            <version>4.4.3</version>
             <type>jar</type>
             <scope>compile</scope>
         </dependency>

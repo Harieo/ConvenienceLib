@@ -18,6 +18,7 @@ Please consult the chart and use the latest library version for the Spigot versi
 | 1.1.0         | 1.17.1                   | Changed to Java 16 and 1.17.1 Spigot            |
 | 1.1.1         | 1.17.1                   | Changed the way menu interaction works          |
 | 1.1.2         | 1.18.2/1.19              | Change to Java 17. Support for 1.18.2 and 1.19. |
+| 1.1.3         | 1.20.1                   | Update dependencies and support for 1.20.1.     |
 
 ## Installation
 This library runs on Maven for compilation, so we recommend using our remote Maven repository to prevent having to clone from 
@@ -27,8 +28,7 @@ First, add our remote repository which stores all of our artifacts:
 ```
 <repository>
     <id>harieo-repo</id>
-    <name>Releases</name>
-    <url>http://repo.harieo.net/repository/maven-releases</url>
+    <url>https://repo.harieo.net/repository/maven-releases</url>
 </repository>
 ```
 
