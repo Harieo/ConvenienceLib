@@ -7,18 +7,30 @@ The library is an implementation of the Spigot API which allows you to perform c
 As of version 1.1.0, the library now uses a more typical semantic versioning system. However, this also means that older Spigot versions will no longer be fully supported. We will aim to keep up to date with the latest Spigot versions moving forward and discontinue providing updates for older versions.
 
 Please **discontinue** use of the Spigot-* versions. Instead, use our new semantic versioning system (1.#.#) as it provides better version control.
+## Major Update 1.2.0 - Modular Library Restructuring
+Please be aware that as of 1.2.0, the way Convenience is packaged has changed to a modular structure.
+
+This means that **ALL existing packages are deprecated** in favour of the new common API module.
+The classes are named and function mostly the same.  
+The reason for the change is to allow Convenience to extend onto the Bungee and Velocity APIs.
+
+Apologies for the inconvenience (ironic, I know).  
+This will make the library more convenient in the long run.
+
+### Version Chart
 
 Please consult the chart and use the latest library version for the Spigot version you intend to use.
 
-| Version       | Supported Spigot Version | Changes                                         |
-|---------------|--------------------------|-------------------------------------------------|
-| Spigot-1.12.2 | 1.12.2                   | Support for 1.12.2                              |
-| Spigot-1.16.4 | 1.16.4                   | Support for 1.16.4                              |
-| Spigot-1.16.5 | 1.16.5                   | Support for 1.16.5                              |
-| 1.1.0         | 1.17.1                   | Changed to Java 16 and 1.17.1 Spigot            |
-| 1.1.1         | 1.17.1                   | Changed the way menu interaction works          |
-| 1.1.2         | 1.18.2/1.19              | Change to Java 17. Support for 1.18.2 and 1.19. |
-| 1.1.3         | 1.20.1                   | Update dependencies and support for 1.20.1.     |
+| Version       | Supported Spigot Version | Changes                                                        |
+|---------------|--------------------------|----------------------------------------------------------------|
+| Spigot-1.12.2 | 1.12.2                   | Support for 1.12.2                                             |
+| Spigot-1.16.4 | 1.16.4                   | Support for 1.16.4                                             |
+| Spigot-1.16.5 | 1.16.5                   | Support for 1.16.5                                             |
+| 1.1.0         | 1.17.1                   | Changed to Java 16 and 1.17.1 Spigot                           |
+| 1.1.1         | 1.17.1                   | Changed the way menu interaction works                         |
+| 1.1.2         | 1.18.2/1.19              | Change to Java 17. Support for 1.18.2 and 1.19.                |
+| 1.1.3         | 1.20.1                   | Update dependencies and support for 1.20.1.                    |
+| 1.2.0         | 1.20.1                   | Major refactoring of the library to support modular API model. |
 
 ## Installation
 This library runs on Maven for compilation, so we recommend using our remote Maven repository to prevent having to clone from 
@@ -35,9 +47,9 @@ First, add our remote repository which stores all of our artifacts:
 Second, add the dependency.
 ```
 <dependency>
-    <groupId>uk.co.harieo</groupId>
+    <groupId>net.harieo</groupId>
     <artifactId>ConvenienceLib</artifactId>
-    <version>1.1.2</version>
+    <version>1.2.0</version>
     <scope>compile</scope>
 </dependency>
 ```
