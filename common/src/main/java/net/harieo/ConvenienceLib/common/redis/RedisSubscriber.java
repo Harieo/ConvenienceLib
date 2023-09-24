@@ -1,5 +1,7 @@
 package net.harieo.ConvenienceLib.common.redis;
 
+import org.jetbrains.annotations.NotNull;
+
 public interface RedisSubscriber {
 
 	/**
@@ -14,6 +16,6 @@ public interface RedisSubscriber {
 	 * @param channel which the message was received on
 	 * @param receivedMessage the message which was received
 	 */
-	void onMessage(String channel, RedisMessage receivedMessage);
+	void onMessage(@NotNull String channel, @NotNull RedisMessage receivedMessage);
 
 }

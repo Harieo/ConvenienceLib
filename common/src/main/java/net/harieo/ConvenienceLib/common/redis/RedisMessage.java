@@ -2,6 +2,7 @@ package net.harieo.ConvenienceLib.common.redis;
 
 import com.google.gson.JsonObject;
 import lombok.Getter;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * A message in JSON format to be sent over Redis for the purposes of being received.
@@ -39,7 +40,8 @@ public class RedisMessage {
 	 * @param messageType which can identify the message when received
 	 * @param version which can identify the version of the system that the message was sent on
 	 */
-	public RedisMessage(String messageType, int version) {
+	public RedisMessage(@NotNull String messageType,
+						int version) {
 		this(messageType, version, new JsonObject());
 	}
 
@@ -50,7 +52,7 @@ public class RedisMessage {
 	 * @param version which can identify the version of the system that the message was sent on
 	 * @param messageBody which holds the body of the message
 	 */
-	public RedisMessage(String messageType, int version, JsonObject messageBody) {
+	public RedisMessage(@NotNull String messageType, int version, @NotNull JsonObject messageBody) {
 		this.messageType = messageType;
 		this.messageVersion = version;
 		this.messageBody = messageBody;
@@ -84,7 +86,7 @@ public class RedisMessage {
 	 * @param object the serialized JsonObject created by {@link #serialize()}
 	 * @return the deserialized message object
 	 */
-	public static RedisMessage deserialize(JsonObject object) {
+	public static RedisMessage deserialize(@NotNull JsonObject object) {
 		String messageType = object.get(messageTypeKey).getAsString();
 		int version = object.get(versionKey).getAsInt();
 		JsonObject body = object.getAsJsonObject(messageBodyKey);

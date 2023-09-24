@@ -1,11 +1,10 @@
 package net.harieo.ConvenienceLib.common.redis;
 
 import com.google.gson.JsonParser;
+import org.jetbrains.annotations.NotNull;
 import redis.clients.jedis.JedisPubSub;
 
 public class SubscriberImpl extends JedisPubSub {
-
-	private static final JsonParser parser = new JsonParser();
 
 	private final RedisSubscriber subscriber;
 
@@ -14,15 +13,15 @@ public class SubscriberImpl extends JedisPubSub {
 	 *
 	 * @param subscriber to parse information to
 	 */
-	SubscriberImpl(RedisSubscriber subscriber) {
+	SubscriberImpl(@NotNull RedisSubscriber subscriber) {
 		this.subscriber = subscriber;
 	}
 
 	@Override
-	public void onMessage(String channel, String message) {
+	public void onMessage(@NotNull String channel, @NotNull String message) {
 		// This impl should only be subscribed to the correct channel so checking the channel is not necessary
 		try {
-			RedisMessage redisMessage = RedisMessage.deserialize(parser.parse(message).getAsJsonObject());
+			RedisMessage redisMessage = RedisMessage.deserialize(JsonParser.parseString(message).getAsJsonObject());
 			subscriber.onMessage(channel, redisMessage);
 		} catch (Exception e) {
 			e.printStackTrace();

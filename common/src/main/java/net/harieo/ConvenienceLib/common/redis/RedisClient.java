@@ -1,6 +1,7 @@
 package net.harieo.ConvenienceLib.common.redis;
 
 import net.harieo.ConvenienceLib.common.database.DatabaseManager;
+import org.jetbrains.annotations.NotNull;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 
@@ -20,7 +21,7 @@ public class RedisClient {
 	 *
 	 * @param databaseManager which holds the Redis database details
 	 */
-	public RedisClient(DatabaseManager databaseManager) {
+	public RedisClient(@NotNull DatabaseManager databaseManager) {
 		this.databaseManager = databaseManager;
 	}
 
@@ -31,7 +32,7 @@ public class RedisClient {
 	 * @param message to be published
 	 * @return the async publishing task
 	 */
-	public CompletableFuture<Void> publishMessage(String channel, RedisMessage message) {
+	public CompletableFuture<Void> publishMessage(@NotNull String channel, @NotNull RedisMessage message) {
 		return consumeJedisAsync(jedis -> jedis.publish(channel, message.serialize().toString()),
 				databaseManager.getPublishPool());
 	}
@@ -41,7 +42,7 @@ public class RedisClient {
 	 *
 	 * @param subscriber to be subscribed
 	 */
-	public void subscribe(RedisSubscriber subscriber) {
+	public void subscribe(@NotNull RedisSubscriber subscriber) {
 		consumeJedisAsync(jedis -> jedis.subscribe(new SubscriberImpl(subscriber), subscriber.getChannels()),
 				databaseManager.getSubscribePool());
 	}
@@ -53,7 +54,8 @@ public class RedisClient {
 	 * @param pool to retrieve the {@link Jedis} instance from
 	 * @return the async task
 	 */
-	private CompletableFuture<Void> consumeJedisAsync(Consumer<Jedis> consumer, JedisPool pool) {
+	private CompletableFuture<Void> consumeJedisAsync(@NotNull Consumer<Jedis> consumer,
+													  @NotNull JedisPool pool) {
 		return CompletableFuture.runAsync(() -> {
 			try (Jedis jedis = pool.getResource()) {
 				consumer.accept(jedis);
