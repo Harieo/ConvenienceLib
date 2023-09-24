@@ -1,6 +1,6 @@
 # ConvenienceLib
 ![Java CI - Build](https://github.com/Harieo/ConvenienceLib/workflows/Java%20CI%20-%20Build/badge.svg)
-
+## Introduction
 A library of code and APIs to make Spigot coding less of a hassle.  
 The library is an implementation of the Spigot API which allows you to perform common tasks without having to copy and paste code constantly. 
 
