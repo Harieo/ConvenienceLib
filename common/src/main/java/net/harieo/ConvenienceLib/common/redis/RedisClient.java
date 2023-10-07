@@ -59,7 +59,7 @@ public class RedisClient {
 	 * @param pool to retrieve the {@link Jedis} instance from
 	 * @return the async task
 	 */
-	private CompletableFuture<Void> consumeJedisAsync(@NotNull Consumer<Jedis> consumer,
+	public CompletableFuture<Void> consumeJedisAsync(@NotNull Consumer<Jedis> consumer,
 													  @NotNull JedisPool pool) {
 		return CompletableFuture.runAsync(() -> {
 			try (Jedis jedis = pool.getResource()) {
