@@ -1,9 +1,10 @@
 package net.harieo.ConvenienceLib.common.database.specific;
 
 import lombok.Data;
+import net.harieo.ConvenienceLib.common.database.api.SQLConfiguration;
 
 @Data
-public class SQLConfiguration {
+public class BasicSQLConfiguration implements SQLConfiguration {
 
 	private final String host;
 	private final int port;
@@ -11,12 +12,5 @@ public class SQLConfiguration {
 	private final String username;
 	private final String password;
 	private final String append;
-
-	/**
-	 * @return the address of the MySQL database consisting of host and port
-	 */
-	public String getAddress() {
-		return getHost() + ":" + getPort();
-	}
 
 }

@@ -1,5 +1,7 @@
 package uk.co.harieo.ConvenienceLib.database;
 
+import net.harieo.ConvenienceLib.spigot.database.YamlRedisConfiguration;
+import net.harieo.ConvenienceLib.spigot.database.YamlSQLConfiguration;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -9,7 +11,9 @@ import uk.co.harieo.ConvenienceLib.database.specific.RedisConfiguration;
 import uk.co.harieo.ConvenienceLib.database.specific.SQLConfiguration;
 
 /**
- * @deprecated Use {@link net.harieo.ConvenienceLib.spigot.database.SpigotDatabaseConfiguration}.
+ * @deprecated Use {@link net.harieo.ConvenienceLib.common.database.DatabaseConfiguration} with
+ * {@link YamlSQLConfiguration} and
+ * {@link YamlRedisConfiguration}.
  */
 @Deprecated
 public class DatabaseConfiguration extends SpigotConfigurationHandler {

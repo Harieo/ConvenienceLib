@@ -1,9 +1,10 @@
 package uk.co.harieo.ConvenienceLib.database.specific;
 
+import net.harieo.ConvenienceLib.spigot.database.YamlRedisConfiguration;
 import org.bukkit.configuration.file.FileConfiguration;
 
 /**
- * @deprecated Use {@link net.harieo.ConvenienceLib.spigot.database.specific.YamlRedisConfiguration}.
+ * @deprecated Use {@link YamlRedisConfiguration}.
  */
 @Deprecated
 public class RedisConfiguration {

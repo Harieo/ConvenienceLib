@@ -1,8 +1,8 @@
 package net.harieo.ConvenienceLib.common.database;
 
 import lombok.Getter;
-import net.harieo.ConvenienceLib.common.database.specific.RedisConfiguration;
-import net.harieo.ConvenienceLib.common.database.specific.SQLConfiguration;
+import net.harieo.ConvenienceLib.common.database.api.RedisConfiguration;
+import net.harieo.ConvenienceLib.common.database.api.SQLConfiguration;
 import org.jetbrains.annotations.NotNull;
 import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.JedisPoolConfig;
@@ -69,7 +69,7 @@ public class DatabaseManager {
 	}
 
 	/**
-	 * Overloads {@link #getConnection(SQLConfiguration)} but uses the {@link SQLConfiguration} already stored in this
+	 * Overloads {@link #getConnection(SQLConfiguration)} but uses the {@link SQLConfiguration}already stored in this
 	 * object.
 	 *
 	 * @return the new MySQL connection
@@ -87,7 +87,7 @@ public class DatabaseManager {
 	 * @param configuration which holds the database configuration values
 	 * @return the created pool
 	 */
-	private JedisPool createJedisPool(RedisConfiguration configuration) {
+	private JedisPool createJedisPool(@NotNull RedisConfiguration configuration) {
 		return new JedisPool(new JedisPoolConfig(), configuration.getHost(), configuration.getPort(),
 				configuration.getTimeout(), configuration.getPassword(), configuration.getDatabase());
 	}

@@ -1,9 +1,10 @@
 package uk.co.harieo.ConvenienceLib.database.specific;
 
+import net.harieo.ConvenienceLib.spigot.database.YamlSQLConfiguration;
 import org.bukkit.configuration.file.FileConfiguration;
 
 /**
- * @deprecated Use {@link net.harieo.ConvenienceLib.spigot.database.specific.YamlSQLConfiguration}.
+ * @deprecated Use {@link YamlSQLConfiguration}.
  */
 @Deprecated
 public class SQLConfiguration {
