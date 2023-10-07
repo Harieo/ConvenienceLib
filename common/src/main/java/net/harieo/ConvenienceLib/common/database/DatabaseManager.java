@@ -3,6 +3,7 @@ package net.harieo.ConvenienceLib.common.database;
 import lombok.Getter;
 import net.harieo.ConvenienceLib.common.database.api.RedisConfiguration;
 import net.harieo.ConvenienceLib.common.database.api.SQLConfiguration;
+import net.harieo.ConvenienceLib.common.redis.RedisClient;
 import org.jetbrains.annotations.NotNull;
 import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.JedisPoolConfig;
@@ -17,22 +18,8 @@ public class DatabaseManager {
 	private final DatabaseConfiguration configuration;
 	private final Properties sqlUserDetails;
 
-	/**
-	 * -- GETTER --
-	 *  This pool should be used for publishing Redis messages to avoid conflict with subscribing
-	 *
-	 * @return a pool for pushing information to Redis
-	 */
 	@Getter
-	private final JedisPool publishPool;
-	/**
-	 * -- GETTER --
-	 *  This pool should be used for all subscribing Redis listeners to avoid conflict with publishing
-	 *
-	 * @return a pool for retrieving information from Redis
-	 */
-	@Getter
-	private final JedisPool subscribePool;
+	private final RedisClient redisClient;
 
 	/**
 	 * A manager which handles opening SQL connections
@@ -48,8 +35,7 @@ public class DatabaseManager {
 		sqlUserDetails.put("password", sqlConfiguration.getPassword());
 
 		RedisConfiguration redisConfiguration = configuration.getRedisConfiguration();
-		publishPool = createJedisPool(redisConfiguration);
-		subscribePool = createJedisPool(redisConfiguration);
+		this.redisClient = new RedisClient(this);
 	}
 
 	/**
@@ -82,12 +68,12 @@ public class DatabaseManager {
 	}
 
 	/**
-	 * Creates a {@link JedisPool} with the provided {@link RedisConfiguration} details
+	 * Creates a {@link JedisPool} with the provided {@link RedisConfiguration} details.
 	 *
-	 * @param configuration which holds the database configuration values
 	 * @return the created pool
 	 */
-	private JedisPool createJedisPool(@NotNull RedisConfiguration configuration) {
+	public JedisPool createJedisPool() {
+		RedisConfiguration configuration = this.configuration.getRedisConfiguration();
 		return new JedisPool(new JedisPoolConfig(), configuration.getHost(), configuration.getPort(),
 				configuration.getTimeout(), configuration.getPassword(), configuration.getDatabase());
 	}

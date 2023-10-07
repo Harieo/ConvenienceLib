@@ -1,5 +1,6 @@
 package net.harieo.ConvenienceLib.common.redis;
 
+import lombok.Getter;
 import net.harieo.ConvenienceLib.common.database.DatabaseManager;
 import org.jetbrains.annotations.NotNull;
 import redis.clients.jedis.Jedis;
@@ -14,7 +15,10 @@ public class RedisClient {
 
 	private static final ExecutorService executorService = Executors.newCachedThreadPool();
 
-	private final DatabaseManager databaseManager;
+	@Getter
+	private final JedisPool publishPool;
+	@Getter
+	private final JedisPool subscribePool;
 
 	/**
 	 * A Redis API which handles publishing and subscribing to Redis messages, as well as custom functions
@@ -22,7 +26,8 @@ public class RedisClient {
 	 * @param databaseManager which holds the Redis database details
 	 */
 	public RedisClient(@NotNull DatabaseManager databaseManager) {
-		this.databaseManager = databaseManager;
+		this.publishPool = databaseManager.createJedisPool();
+		this.subscribePool = databaseManager.createJedisPool();
 	}
 
 	/**
@@ -34,7 +39,7 @@ public class RedisClient {
 	 */
 	public CompletableFuture<Void> publishMessage(@NotNull String channel, @NotNull RedisMessage message) {
 		return consumeJedisAsync(jedis -> jedis.publish(channel, message.serialize().toString()),
-				databaseManager.getPublishPool());
+				getPublishPool());
 	}
 
 	/**
@@ -44,7 +49,7 @@ public class RedisClient {
 	 */
 	public void subscribe(@NotNull RedisSubscriber subscriber) {
 		consumeJedisAsync(jedis -> jedis.subscribe(new SubscriberImpl(subscriber), subscriber.getChannels()),
-				databaseManager.getSubscribePool());
+				getSubscribePool());
 	}
 
 	/**
