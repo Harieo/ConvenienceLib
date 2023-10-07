@@ -34,7 +34,6 @@ public class DatabaseManager {
 		sqlUserDetails.put("user", sqlConfiguration.getUsername());
 		sqlUserDetails.put("password", sqlConfiguration.getPassword());
 
-		RedisConfiguration redisConfiguration = configuration.getRedisConfiguration();
 		this.redisClient = new RedisClient(this);
 	}
 
