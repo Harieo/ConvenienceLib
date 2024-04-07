@@ -14,8 +14,8 @@ This means that **ALL existing packages are deprecated** in favour of the new co
 The classes are named and function mostly the same.  
 The reason for the change is to allow Convenience to extend onto the Bungee and Velocity APIs.
 
-Apologies for the inconvenience (ironic, I know).  
-This will make the library more convenient in the long run.
+**All versions 1.1.\* are now End of Life (EOL).** They have been deprecated in the newest version and may be removed
+in later updates.
 
 ### Version Chart
 
@@ -44,13 +44,27 @@ First, add our remote repository which stores all of our artifacts:
 </repository>
 ```
 
-Second, add the dependency.
+Second, add the dependency for the platform you want to use.
 ```
 <dependency>
     <groupId>net.harieo</groupId>
-    <artifactId>ConvenienceLib</artifactId>
-    <version>1.2.0</version>
-    <scope>compile</scope>
+    <artifactId>ConvenienceLib-[platform]</artifactId>
+    <version>1.2.1</version>
+</dependency>
+```
+
+The following modules exist:
+- ConvenienceLib-spigot (Platform: Native Spigot)
+- ConvenienceLib-bungee (Platform: BungeeCord)
+- ConvenienceLib-velocity (Platform: Velocity)
+- ConvenienceLib-common (No Platform - This is our abstract module)
+
+Therefore, to use ConvenienceLib for your Spigot plugin, use the following dependency:
+```
+<dependency>
+    <groupId>net.harieo</groupId>
+    <artifactId>ConvenienceLib-spigot</artifactId>
+    <version>1.2.1</version>
 </dependency>
 ```
 
