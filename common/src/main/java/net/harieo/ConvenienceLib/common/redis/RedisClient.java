@@ -2,9 +2,11 @@ package net.harieo.ConvenienceLib.common.redis;
 
 import lombok.Getter;
 import net.harieo.ConvenienceLib.common.database.DatabaseManager;
+import net.harieo.ConvenienceLib.common.database.api.RedisConfiguration;
 import org.jetbrains.annotations.NotNull;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
+import redis.clients.jedis.JedisPoolConfig;
 
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutorService;
@@ -20,14 +22,18 @@ public class RedisClient {
 	@Getter
 	private final JedisPool subscribePool;
 
+	@Getter
+	private final RedisConfiguration configuration;
+
 	/**
 	 * A Redis API which handles publishing and subscribing to Redis messages, as well as custom functions
 	 *
-	 * @param databaseManager which holds the Redis database details
+	 * @param redisConfiguration the configuration for the Redis server
 	 */
-	public RedisClient(@NotNull DatabaseManager databaseManager) {
-		this.publishPool = databaseManager.createJedisPool();
-		this.subscribePool = databaseManager.createJedisPool();
+	public RedisClient(@NotNull RedisConfiguration redisConfiguration) {
+		this.configuration = redisConfiguration;
+		this.publishPool = createJedisPool();
+		this.subscribePool = createJedisPool();
 	}
 
 	/**
@@ -66,6 +72,16 @@ public class RedisClient {
 				consumer.accept(jedis);
 			}
 		}, executorService);
+	}
+
+	/**
+	 * Creates a {@link JedisPool} with the provided {@link RedisConfiguration} details.
+	 *
+	 * @return the created pool
+	 */
+	public JedisPool createJedisPool() {
+		return new JedisPool(new JedisPoolConfig(), configuration.getHost(), configuration.getPort(),
+				configuration.getTimeout(), configuration.getPassword(), configuration.getDatabase());
 	}
 
 }

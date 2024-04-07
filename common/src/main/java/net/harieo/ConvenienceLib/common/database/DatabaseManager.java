@@ -34,7 +34,7 @@ public class DatabaseManager {
 		sqlUserDetails.put("user", sqlConfiguration.getUsername());
 		sqlUserDetails.put("password", sqlConfiguration.getPassword());
 
-		this.redisClient = new RedisClient(this);
+		this.redisClient = new RedisClient(configuration.getRedisConfiguration());
 	}
 
 	/**
@@ -64,17 +64,6 @@ public class DatabaseManager {
 	public Connection getConnection() throws SQLException {
 		SQLConfiguration sqlConfiguration = configuration.getSqlConfiguration();
 		return getConnection(sqlConfiguration);
-	}
-
-	/**
-	 * Creates a {@link JedisPool} with the provided {@link RedisConfiguration} details.
-	 *
-	 * @return the created pool
-	 */
-	public JedisPool createJedisPool() {
-		RedisConfiguration configuration = this.configuration.getRedisConfiguration();
-		return new JedisPool(new JedisPoolConfig(), configuration.getHost(), configuration.getPort(),
-				configuration.getTimeout(), configuration.getPassword(), configuration.getDatabase());
 	}
 
 }
