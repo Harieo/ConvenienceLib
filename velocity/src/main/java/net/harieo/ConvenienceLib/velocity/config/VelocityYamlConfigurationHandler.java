@@ -1,6 +1,7 @@
 package net.harieo.ConvenienceLib.velocity.config;
 
 import net.harieo.ConvenienceLib.common.config.ConfigurationHandler;
+import net.harieo.ConvenienceLib.velocity.ConvenienceLibVelocity;
 import org.jetbrains.annotations.NotNull;
 import org.yaml.snakeyaml.Yaml;
 
@@ -50,11 +51,13 @@ public class VelocityYamlConfigurationHandler<T> implements ConfigurationHandler
 
     @Override
     public File getFile() throws IOException {
-        File file = new File(this.directory, this.fileName);
+        File file = new File(getFolder(), this.fileName);
         if (!file.exists()) {
-            try (InputStream stream = this.getClass().getClassLoader().getResourceAsStream(fileName)) {
+            try (InputStream stream = VelocityYamlConfigurationHandler.class.getResourceAsStream("/" + fileName)) {
                 if (stream != null) {
                     Files.copy(stream, file.toPath());
+                } else {
+                    throw new FileNotFoundException("Unable to retrieve resource " + fileName);
                 }
             }
         }

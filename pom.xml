@@ -44,21 +44,4 @@
         </repository>
     </distributionManagement>
 
-    <build>
-        <resources>
-            <resource>
-                <directory>bungee/src/main/resources</directory>
-                <filtering>false</filtering>
-            </resource>
-            <resource>
-                <directory>spigot/src/main/resources</directory>
-                <filtering>false</filtering>
-            </resource>
-            <resource>
-                <directory>velocity/src/main/resources</directory>
-                <filtering>false</filtering>
-            </resource>
-        </resources>
-    </build>
-
 </project>

@@ -44,6 +44,16 @@ public class YamlSQLConfiguration extends MappedVelocityYamlConfigurationHandler
         }
     }
 
+    /**
+     * An overload of {@link #YamlSQLConfiguration(Path, String)} which uses {@link YamlRedisConfiguration#DEFAULT_FILE_NAME}
+     * as the file name.
+     *
+     * @param directoryPath the path of the directory containing the file
+     */
+    public YamlSQLConfiguration(@NotNull Path directoryPath) {
+        this(directoryPath, YamlRedisConfiguration.DEFAULT_FILE_NAME);
+    }
+
     @Override
     public String getHost() {
         return host;
