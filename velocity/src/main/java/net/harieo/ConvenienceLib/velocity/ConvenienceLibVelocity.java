@@ -15,7 +15,7 @@ import org.jetbrains.annotations.NotNull;
 import java.nio.file.Path;
 import java.util.logging.Logger;
 
-@Plugin(id = "conveniencelib-velocity", name = "ConvenienceLib", version = "1.2.1",
+@Plugin(id = "conveniencelib", name = "ConvenienceLib", version = "1.2.1",
         url = "https://github.com/Harieo/ConvenienceLib", authors = {"Harieo"})
 public class ConvenienceLibVelocity {
 
