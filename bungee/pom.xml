@@ -28,7 +28,7 @@
         <dependency>
             <groupId>net.harieo</groupId>
             <artifactId>ConvenienceLib-common</artifactId>
-            <version>1.2.0</version>
+            <version>${parent.version}</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
