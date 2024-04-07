@@ -23,13 +23,19 @@ public class VelocityYamlConfigurationHandler<T> implements ConfigurationHandler
      * This class uses {@link Yaml} to deserialize a file into a specified type.
      *
      * @param directoryPath the path of the directory containing the file
-     * @param fileName the canonical name of the file
+     * @param fileName      the canonical name of the file
      */
     public VelocityYamlConfigurationHandler(@NotNull Path directoryPath, @NotNull String fileName) {
         this.directory = directoryPath.toFile();
         this.fileName = fileName;
     }
 
+    /**
+     * @return the {@link Yaml} instance.
+     */
+    protected Yaml getYaml() {
+        return yaml; // For implementing subclasses only.
+    }
 
     @Override
     public File getFolder() throws IOException {
