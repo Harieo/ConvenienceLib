@@ -6,12 +6,13 @@
 
     <groupId>net.harieo</groupId>
     <artifactId>ConvenienceLib</artifactId>
-    <version>1.2.0</version>
+    <version>1.2.1</version>
     <packaging>pom</packaging>
     <modules>
         <module>common</module>
         <module>spigot</module>
         <module>bungee</module>
+        <module>velocity</module>
     </modules>
 
     <properties>
@@ -42,5 +43,22 @@
             <url>https://repo.harieo.net/repository/maven-releases</url>
         </repository>
     </distributionManagement>
+
+    <build>
+        <resources>
+            <resource>
+                <directory>bungee/src/main/resources</directory>
+                <filtering>false</filtering>
+            </resource>
+            <resource>
+                <directory>spigot/src/main/resources</directory>
+                <filtering>false</filtering>
+            </resource>
+            <resource>
+                <directory>velocity/src/main/resources</directory>
+                <filtering>false</filtering>
+            </resource>
+        </resources>
+    </build>
 
 </project>

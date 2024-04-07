@@ -1,4 +1,4 @@
 main: net.harieo.ConvenienceLib.bungee.ConvenienceLibBungee
-version: 1.2.0
+version: ${project.version}
 name: ConvenienceLib
 author: Harieo

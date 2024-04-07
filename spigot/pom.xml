@@ -6,7 +6,7 @@
     <parent>
         <groupId>net.harieo</groupId>
         <artifactId>ConvenienceLib</artifactId>
-        <version>1.2.0</version>
+        <version>1.2.1</version>
     </parent>
 
     <artifactId>ConvenienceLib-spigot</artifactId>
