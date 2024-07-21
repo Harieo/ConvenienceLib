@@ -1,0 +1,5 @@
+main: net.harieo.ConvenienceLib.spigot.ConvenienceLib
+version: ${project.version}
+name: ConvenienceLib
+author: Harieo
+api-version: '1.20'
