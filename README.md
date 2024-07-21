@@ -7,8 +7,8 @@ The library is an implementation of the Spigot API which allows you to perform c
 As of version 1.1.0, the library now uses a more typical semantic versioning system. However, this also means that older Spigot versions will no longer be fully supported. We will aim to keep up to date with the latest Spigot versions moving forward and discontinue providing updates for older versions.
 
 Please **discontinue** use of the Spigot-* versions. Instead, use our new semantic versioning system (1.#.#) as it provides better version control.
-## Major Update 1.2.0 - Modular Library Restructuring
-Please be aware that as of 1.2.0, the way Convenience is packaged has changed to a modular structure.
+## Major Update 1.2.1 - Modular Library Restructuring
+Please be aware that as of 1.2.1, the way Convenience is packaged has changed to a modular structure.
 
 This means that **ALL existing packages are deprecated** in favour of the new common API module.
 The classes are named and function mostly the same.  
@@ -30,7 +30,7 @@ Please consult the chart and use the latest library version for the Spigot versi
 | 1.1.1         | 1.17.1                   | Changed the way menu interaction works                         |
 | 1.1.2         | 1.18.2/1.19              | Change to Java 17. Support for 1.18.2 and 1.19.                |
 | 1.1.3         | 1.20.1                   | Update dependencies and support for 1.20.1.                    |
-| 1.2.0         | 1.20.1                   | Major refactoring of the library to support modular API model. |
+| 1.2.1         | 1.20.1                   | Major refactoring of the library to support modular API model. |
 
 ## Installation
 This library runs on Maven for compilation, so we recommend using our remote Maven repository to prevent having to clone from 
